@@ -28,30 +28,28 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.RegisterButton = new System.Windows.Forms.Button();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.BotList = new System.Windows.Forms.ListView();
             this.BotNumber = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.BotName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.BotOwner = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.BotStatus = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.Status = new System.Windows.Forms.StatusStrip();
+            this.StatusStrip = new System.Windows.Forms.StatusStrip();
             this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.LaunchButton = new System.Windows.Forms.Button();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.Status.SuspendLayout();
+            this.btnRegister = new System.Windows.Forms.ToolStripButton();
+            this.btnLaunch = new System.Windows.Forms.ToolStripSplitButton();
+            this.btnLaunchAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnStop = new System.Windows.Forms.ToolStripSplitButton();
+            this.btnStopAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.BackgroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnClients = new System.Windows.Forms.ToolStripButton();
+            this.StatusStrip.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // RegisterButton
-            // 
-            this.RegisterButton.Location = new System.Drawing.Point(12, 12);
-            this.RegisterButton.Name = "RegisterButton";
-            this.RegisterButton.Size = new System.Drawing.Size(120, 30);
-            this.RegisterButton.TabIndex = 0;
-            this.RegisterButton.Text = "Зарегистрировать";
-            this.RegisterButton.UseVisualStyleBackColor = true;
-            this.RegisterButton.Click += new System.EventHandler(this.RegisterButton_Click);
             // 
             // BotList
             // 
@@ -65,9 +63,9 @@
             this.BotStatus});
             this.BotList.FullRowSelect = true;
             this.BotList.HideSelection = false;
-            this.BotList.Location = new System.Drawing.Point(12, 48);
+            this.BotList.Location = new System.Drawing.Point(12, 28);
             this.BotList.Name = "BotList";
-            this.BotList.Size = new System.Drawing.Size(760, 484);
+            this.BotList.Size = new System.Drawing.Size(760, 508);
             this.BotList.TabIndex = 1;
             this.BotList.UseCompatibleStateImageBehavior = false;
             this.BotList.View = System.Windows.Forms.View.Details;
@@ -79,57 +77,128 @@
             // 
             // BotName
             // 
-            this.BotName.Text = "BotName";
+            this.BotName.Text = "Бот";
             this.BotName.Width = 211;
             // 
             // BotOwner
             // 
-            this.BotOwner.Text = "BotOwner";
+            this.BotOwner.Text = "Владелец";
             this.BotOwner.Width = 196;
             // 
             // BotStatus
             // 
-            this.BotStatus.Text = "BotStatus";
+            this.BotStatus.Text = "Статус";
+            this.BotStatus.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.BotStatus.Width = 299;
             // 
-            // Status
+            // StatusStrip
             // 
-            this.Status.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.StatusLabel});
-            this.Status.Location = new System.Drawing.Point(0, 539);
-            this.Status.Name = "Status";
-            this.Status.Size = new System.Drawing.Size(784, 22);
-            this.Status.TabIndex = 2;
-            this.Status.Text = "statusStrip1";
+            this.StatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.StatusLabel,
+            this.ProgressBar,
+            this.lblStatus});
+            this.StatusStrip.Location = new System.Drawing.Point(0, 539);
+            this.StatusStrip.Name = "StatusStrip";
+            this.StatusStrip.Size = new System.Drawing.Size(784, 22);
+            this.StatusStrip.TabIndex = 2;
+            this.StatusStrip.Text = "statusStrip1";
             // 
             // StatusLabel
             // 
             this.StatusLabel.Name = "StatusLabel";
             this.StatusLabel.Size = new System.Drawing.Size(0, 17);
             // 
-            // LaunchButton
+            // ProgressBar
             // 
-            this.LaunchButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.LaunchButton.Location = new System.Drawing.Point(672, 12);
-            this.LaunchButton.Name = "LaunchButton";
-            this.LaunchButton.Size = new System.Drawing.Size(100, 30);
-            this.LaunchButton.TabIndex = 3;
-            this.LaunchButton.Text = "Запустить";
-            this.LaunchButton.UseVisualStyleBackColor = true;
-            this.LaunchButton.Click += new System.EventHandler(this.LaunchButton_Click);
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            this.ProgressBar.Name = "ProgressBar";
+            this.ProgressBar.Size = new System.Drawing.Size(200, 16);
+            this.ProgressBar.Visible = false;
             // 
             // toolStrip1
             // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnRegister,
+            this.btnLaunch,
+            this.btnStop,
+            this.toolStripSeparator1,
+            this.btnClients});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(784, 25);
             this.toolStrip1.TabIndex = 5;
             this.toolStrip1.Text = "toolStrip1";
+            // 
+            // btnRegister
+            // 
+            this.btnRegister.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnRegister.Image = ((System.Drawing.Image)(resources.GetObject("btnRegister.Image")));
+            this.btnRegister.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnRegister.Name = "btnRegister";
+            this.btnRegister.Size = new System.Drawing.Size(111, 22);
+            this.btnRegister.Text = "Зарегистрировать";
+            this.btnRegister.Click += new System.EventHandler(this.RegisterButton_Click);
+            // 
+            // btnLaunch
+            // 
+            this.btnLaunch.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnLaunch.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnLaunchAll});
+            this.btnLaunch.Image = ((System.Drawing.Image)(resources.GetObject("btnLaunch.Image")));
+            this.btnLaunch.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnLaunch.Name = "btnLaunch";
+            this.btnLaunch.Size = new System.Drawing.Size(78, 22);
+            this.btnLaunch.Text = "Запустить";
+            this.btnLaunch.ButtonClick += new System.EventHandler(this.LaunchButton_Click);
+            // 
+            // btnLaunchAll
+            // 
+            this.btnLaunchAll.Name = "btnLaunchAll";
+            this.btnLaunchAll.Size = new System.Drawing.Size(150, 22);
+            this.btnLaunchAll.Text = "Запустить все";
+            // 
+            // btnStop
+            // 
+            this.btnStop.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnStop.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnStopAll});
+            this.btnStop.Image = ((System.Drawing.Image)(resources.GetObject("btnStop.Image")));
+            this.btnStop.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnStop.Name = "btnStop";
+            this.btnStop.Size = new System.Drawing.Size(87, 22);
+            this.btnStop.Text = "Остановить";
+            // 
+            // btnStopAll
+            // 
+            this.btnStopAll.Name = "btnStopAll";
+            this.btnStopAll.Size = new System.Drawing.Size(159, 22);
+            this.btnStopAll.Text = "Остановить все";
+            // 
+            // BackgroundWorker
+            // 
+            this.BackgroundWorker.WorkerReportsProgress = true;
+            this.BackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BackgroundWorker_DoWork);
+            this.BackgroundWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.BackgroundWorker_ProgressChanged);
+            // 
+            // lblStatus
+            // 
+            this.lblStatus.Name = "lblStatus";
+            this.lblStatus.Size = new System.Drawing.Size(0, 17);
+            this.lblStatus.Visible = false;
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // btnClients
+            // 
+            this.btnClients.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnClients.Image = ((System.Drawing.Image)(resources.GetObject("btnClients.Image")));
+            this.btnClients.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnClients.Name = "btnClients";
+            this.btnClients.Size = new System.Drawing.Size(59, 22);
+            this.btnClients.Text = "Клиенты";
+            this.btnClients.Click += new System.EventHandler(this.btnClients_Click);
             // 
             // MainForm
             // 
@@ -137,33 +206,41 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 561);
             this.Controls.Add(this.toolStrip1);
-            this.Controls.Add(this.LaunchButton);
-            this.Controls.Add(this.Status);
+            this.Controls.Add(this.StatusStrip);
             this.Controls.Add(this.BotList);
-            this.Controls.Add(this.RegisterButton);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Управление Telegram ботами";
-            this.Status.ResumeLayout(false);
-            this.Status.PerformLayout();
+            this.Text = "MLM Bots";
+            this.StatusStrip.ResumeLayout(false);
+            this.StatusStrip.PerformLayout();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Button RegisterButton;
         private System.Windows.Forms.ListView BotList;
         private System.Windows.Forms.ColumnHeader BotName;
         private System.Windows.Forms.ColumnHeader BotOwner;
         private System.Windows.Forms.ColumnHeader BotStatus;
         private System.Windows.Forms.ColumnHeader BotNumber;
-        private System.Windows.Forms.StatusStrip Status;
+        private System.Windows.Forms.StatusStrip StatusStrip;
         private System.Windows.Forms.ToolStripStatusLabel StatusLabel;
-        private System.Windows.Forms.Button LaunchButton;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton btnRegister;
+        private System.Windows.Forms.ToolStripSplitButton btnLaunch;
+        private System.Windows.Forms.ToolStripMenuItem btnLaunchAll;
+        private System.Windows.Forms.ToolStripSplitButton btnStop;
+        private System.Windows.Forms.ToolStripMenuItem btnStopAll;
+        private System.Windows.Forms.ToolStripProgressBar ProgressBar;
+        private System.ComponentModel.BackgroundWorker BackgroundWorker;
+        private System.Windows.Forms.ToolStripStatusLabel lblStatus;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripButton btnClients;
     }
 }
 

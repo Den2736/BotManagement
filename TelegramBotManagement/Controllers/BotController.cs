@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Telegram.Bot;
 using TelegramBotManagement.Helpers;
 using TelegramBotManagement.Models;
+using TelegramBotManagement.Views;
 
 namespace TelegramBotManagement.Controllers
 {
@@ -14,20 +15,22 @@ namespace TelegramBotManagement.Controllers
         public static void Init()
         {
             MainController.OnLaunchButtonClick += OnLaunchButtonClick;
-            MainController.OnRegisterButtonClick += OnRegisterButtonClick;
-        }
-
-        private static void OnRegisterButtonClick(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
         }
 
         private static void OnLaunchButtonClick(object sender, EventArgs e)
         {
-            foreach (var bot in GetBots())
+            var bots = GetBots();
+            int count = 0;
+            int total = bots.Count();
+
+            foreach (var bot in bots)
             {
+                total = GetBots().Count();
                 MainController.ShowBot(bot);
+                count++;
+                MainController.ReportProgress(count / total * 100, "Запуск ботов.");
             }
+            MainController.ReportProgress(100, "Запуск ботов завершён.");
         }
 
         private static IEnumerable<OurBot> GetBots()

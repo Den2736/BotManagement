@@ -15,6 +15,7 @@ namespace TelegramBotManagement
     {
         public event EventHandler OnLaunchButtonClick;
         public event EventHandler OnRegisterButtonClick;
+        public event EventHandler OnClientsButtonClick;
 
         public MainForm()
         {
@@ -52,6 +53,12 @@ namespace TelegramBotManagement
             StatusLabel.ForeColor = Color.Red;
             StatusLabel.Text = message;
         }
+        public void ShowProgress(int progress, string status="")
+        {
+            BackgroundWorker.ReportProgress(progress);
+            lblStatus.Visible = true;
+            lblStatus.Text = status;
+        }
 
         private void RegisterButton_Click(object sender, EventArgs e)
         {
@@ -60,7 +67,27 @@ namespace TelegramBotManagement
 
         private void LaunchButton_Click(object sender, EventArgs e)
         {
+            ProgressBar.Visible = true;
+            ProgressBar.Value = 0;
+
+            if (!BackgroundWorker.IsBusy)
+            {
+                BackgroundWorker_DoWork(this, null);
+            }
+        }
+
+        private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
             OnLaunchButtonClick?.Invoke(this, null);
+        }
+        private void BackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            ProgressBar.Value = e.ProgressPercentage;
+        }
+
+        private void btnClients_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

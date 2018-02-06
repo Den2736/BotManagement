@@ -44,3 +44,4 @@ D:\GitHubRepos\BotManagement\TelegramBotManagement\obj\Debug\TelegramBotManageme
 D:\GitHubRepos\BotManagement\TelegramBotManagement\obj\Debug\TelegramBotManagement.csproj.CoreCompileInputs.cache
 D:\GitHubRepos\BotManagement\TelegramBotManagement\obj\Debug\TelegramBotManagement.exe
 D:\GitHubRepos\BotManagement\TelegramBotManagement\obj\Debug\TelegramBotManagement.pdb
+D:\GitHubRepos\BotManagement\TelegramBotManagement\obj\Debug\TelegramBotManagement.Views.RegisterBotForm.resources
