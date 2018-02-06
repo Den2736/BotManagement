@@ -63,6 +63,8 @@
             this.BotName,
             this.BotOwner,
             this.BotStatus});
+            this.BotList.FullRowSelect = true;
+            this.BotList.HideSelection = false;
             this.BotList.Location = new System.Drawing.Point(12, 48);
             this.BotList.Name = "BotList";
             this.BotList.Size = new System.Drawing.Size(760, 484);

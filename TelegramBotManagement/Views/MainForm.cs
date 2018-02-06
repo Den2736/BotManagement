@@ -27,6 +27,7 @@ namespace TelegramBotManagement
 
             item.SubItems.Add(botName);
             item.SubItems.Add(owner);
+            item.SubItems.Add(status);
             BotList.Items.Add(item);
             var contextMenu = new List<MenuItem>()
             {
