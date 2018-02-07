@@ -47,5 +47,14 @@ namespace TelegramBotManagement.Helpers
                 }
             }
         }
+
+        public static void Migrate()
+        {
+            using (var db = GetConnection())
+            {
+                db.CreateTable<Client>();
+                db.CreateTable<OurBot>();
+            }
+        }
     }
 }

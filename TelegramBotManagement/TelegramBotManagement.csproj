@@ -69,15 +69,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\BotController.cs" />
+    <Compile Include="Controllers\ClientController.cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Helpers\DBHelper.cs" />
     <Compile Include="Models\Client.cs" />
+    <Compile Include="Models\EventArgs\ContextMenuItemClickArgs.cs" />
+    <Compile Include="Models\EventArgs\SaveClientArgs.cs" />
     <Compile Include="Models\OurBot.cs" />
-    <Compile Include="Views\ClientsForm.cs">
+    <Compile Include="Views\Clients\ClientsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\ClientsForm.Designer.cs">
+    <Compile Include="Views\Clients\ClientsForm.Designer.cs">
       <DependentUpon>ClientsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Clients\EditClientForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Clients\EditClientForm.Designer.cs">
+      <DependentUpon>EditClientForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\MainForm.cs">
       <SubType>Form</SubType>
@@ -93,8 +102,11 @@
     <Compile Include="Views\RegisterBotForm.Designer.cs">
       <DependentUpon>RegisterBotForm.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Views\ClientsForm.resx">
+    <EmbeddedResource Include="Views\Clients\ClientsForm.resx">
       <DependentUpon>ClientsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Clients\EditClientForm.resx">
+      <DependentUpon>EditClientForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

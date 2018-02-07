@@ -21,5 +21,8 @@ namespace TelegramBotManagement.Models
         public string Email { get; set; }
 
         public string PhoneNumber { get; set; }
+
+        [Ignore]
+        public int BotCount { get; set; }
     }
 }

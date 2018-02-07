@@ -87,7 +87,7 @@ namespace TelegramBotManagement
 
         private void btnClients_Click(object sender, EventArgs e)
         {
-
+            OnClientsButtonClick?.Invoke(this, null);
         }
     }
 }

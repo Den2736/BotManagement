@@ -22,6 +22,8 @@ namespace TelegramBotManagement.Controllers
         public static void Init()
         {
             BotController.Init();
+            ClientController.Init();
+            DBHelper.Migrate();
             Form.OnLaunchButtonClick += Form_OnLaunchButtonClick;
             Form.OnRegisterButtonClick += Form_OnRegisterButtonClick;
             Form.OnClientsButtonClick += Form_OnClientsButtonClick;
@@ -66,7 +68,7 @@ namespace TelegramBotManagement.Controllers
 
         private static void Form_OnClientsButtonClick(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            OnClientsButtonClick?.Invoke(sender, null);
         }
     }
 }
