@@ -14,7 +14,6 @@ namespace TelegramBotManagement
     public partial class MainForm : Form
     {
         public event EventHandler OnLaunchButtonClick;
-        public event EventHandler OnRegisterButtonClick;
         public event EventHandler OnClientsButtonClick;
 
         public MainForm()
@@ -22,20 +21,23 @@ namespace TelegramBotManagement
             InitializeComponent();
         }
 
-        public void AddBot(string botName, string owner, string status)
+        public void ShowBots(IEnumerable<OurBot> bots)
         {
-            var item = new ListViewItem((BotList.Items.Count + 1).ToString());
-
-            item.SubItems.Add(botName);
-            item.SubItems.Add(owner);
-            item.SubItems.Add(status);
-            BotList.Items.Add(item);
-            var contextMenu = new List<MenuItem>()
+            BotList.Items.Clear();
+            foreach (var bot in bots)
             {
-                new MenuItem("click here", LaunchButton_Click)
-            };
+                var item = new ListViewItem((BotList.Items.Count + 1).ToString());
+                var telegramBot = bot.Bot.GetMeAsync().Result;
+                item.SubItems.Add(telegramBot.Username);
+                item.SubItems.Add(bot.Owner.Username);
+                item.SubItems.Add(bot.Status.ToString());
 
-            BotList.ContextMenu = new ContextMenu(contextMenu.ToArray());
+                item.SubItems[3].ForeColor =
+                    bot.Status == Models.BotStatus.NotFound ? Color.Red
+                    : bot.Status == Models.BotStatus.Online ? Color.Green : Color.Black;
+
+                BotList.Items.Add(item);
+            }
         }
 
         public void SetNeutralStatus(string message)
@@ -60,22 +62,6 @@ namespace TelegramBotManagement
             lblStatus.Text = status;
         }
 
-        private void RegisterButton_Click(object sender, EventArgs e)
-        {
-            OnRegisterButtonClick?.Invoke(this, null);
-        }
-
-        private void LaunchButton_Click(object sender, EventArgs e)
-        {
-            ProgressBar.Visible = true;
-            ProgressBar.Value = 0;
-
-            if (!BackgroundWorker.IsBusy)
-            {
-                BackgroundWorker_DoWork(this, null);
-            }
-        }
-
         private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             OnLaunchButtonClick?.Invoke(this, null);
@@ -88,6 +74,14 @@ namespace TelegramBotManagement
         private void btnClients_Click(object sender, EventArgs e)
         {
             OnClientsButtonClick?.Invoke(this, null);
+        }
+
+        private void LaunchAllButton_Click(object sender, EventArgs e)
+        {
+            if (!BackgroundWorker.IsBusy)
+            {
+                BackgroundWorker_DoWork(null, null);
+            }
         }
     }
 }

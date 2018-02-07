@@ -16,17 +16,15 @@ namespace TelegramBotManagement.Controllers
         private static RegisterBotForm registerForm;
 
         public static event EventHandler OnLaunchButtonClick;
-        public static event EventHandler OnRegisterButtonClick;
         public static event EventHandler OnClientsButtonClick;
 
         public static void Init()
         {
+            Form.OnLaunchButtonClick += Form_OnLaunchButtonClick;
+            Form.OnClientsButtonClick += Form_OnClientsButtonClick;
             BotController.Init();
             ClientController.Init();
-            DBHelper.Migrate();
-            Form.OnLaunchButtonClick += Form_OnLaunchButtonClick;
-            Form.OnRegisterButtonClick += Form_OnRegisterButtonClick;
-            Form.OnClientsButtonClick += Form_OnClientsButtonClick;
+
             Form.ShowDialog();
         }
 
@@ -43,11 +41,9 @@ namespace TelegramBotManagement.Controllers
             Form.SetDangerStatus(message);
         }
 
-        public static void ShowBot(OurBot bot)
+        public static void ShowBots(IEnumerable<OurBot> bots)
         {
-            var telegramBot = new TelegramBotClient(bot.Token);
-            string botName = telegramBot.GetMeAsync().Result.Username;
-            Form.AddBot(botName, "somebody", "statusss");
+            Form.ShowBots(bots);
         }
 
         public static void ReportProgress(int progress, string status = "")

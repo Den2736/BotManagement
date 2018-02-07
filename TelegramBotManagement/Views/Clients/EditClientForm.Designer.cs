@@ -61,6 +61,7 @@
             this.PhoneNumberTb.Name = "PhoneNumberTb";
             this.PhoneNumberTb.Size = new System.Drawing.Size(188, 20);
             this.PhoneNumberTb.TabIndex = 24;
+            this.PhoneNumberTb.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EditClientForm_KeyDown);
             // 
             // PhoneNumberLbl
             // 
@@ -77,6 +78,7 @@
             this.EmailTb.Name = "EmailTb";
             this.EmailTb.Size = new System.Drawing.Size(188, 20);
             this.EmailTb.TabIndex = 22;
+            this.EmailTb.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EditClientForm_KeyDown);
             // 
             // EmailLbl
             // 
@@ -93,6 +95,7 @@
             this.FirstNameTb.Name = "FirstNameTb";
             this.FirstNameTb.Size = new System.Drawing.Size(188, 20);
             this.FirstNameTb.TabIndex = 20;
+            this.FirstNameTb.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EditClientForm_KeyDown);
             // 
             // FirstNameLbl
             // 
@@ -109,6 +112,7 @@
             this.UsernameTb.Name = "UsernameTb";
             this.UsernameTb.Size = new System.Drawing.Size(188, 20);
             this.UsernameTb.TabIndex = 18;
+            this.UsernameTb.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EditClientForm_KeyDown);
             // 
             // UsernameLbl
             // 
@@ -125,6 +129,7 @@
             this.LastNameTb.Name = "LastNameTb";
             this.LastNameTb.Size = new System.Drawing.Size(188, 20);
             this.LastNameTb.TabIndex = 16;
+            this.LastNameTb.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EditClientForm_KeyDown);
             // 
             // LastNameLbl
             // 
@@ -142,6 +147,7 @@
             this.IdTb.Name = "IdTb";
             this.IdTb.Size = new System.Drawing.Size(188, 20);
             this.IdTb.TabIndex = 14;
+            this.IdTb.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EditClientForm_KeyDown);
             // 
             // IdLbl
             // 

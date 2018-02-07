@@ -15,24 +15,42 @@ namespace TelegramBotManagement.Controllers
         public static void Init()
         {
             MainController.OnLaunchButtonClick += OnLaunchButtonClick;
+            PrepareBots();
         }
 
         private static void OnLaunchButtonClick(object sender, EventArgs e)
         {
-            var bots = GetBots();
-            int count = 0;
-            int total = bots.Count();
-
-            foreach (var bot in bots)
-            {
-                total = GetBots().Count();
-                MainController.ShowBot(bot);
-                count++;
-                MainController.ReportProgress(count / total * 100, "Запуск ботов.");
-            }
-            MainController.ReportProgress(100, "Запуск ботов завершён.");
+           
         }
 
+        private static void LaunchBot(OurBot ourBot)
+        {
+
+        }
+        private static void PrepareBots()
+        {
+            var ourBots = GetBots();
+            int count = 0;
+            int total = ourBots.Count();
+            foreach (var ourBot in ourBots)
+            {
+                try
+                {
+                    var telegramBot = new TelegramBotClient(ourBot.Token);
+                    ourBot.Bot = telegramBot;
+                    ourBot.Owner = DBHelper.GetBotOwner(ourBot);
+                    ourBot.Status = BotStatus.Offline;
+                }
+                catch (ArgumentException)
+                {
+                    ourBot.Status = BotStatus.NotFound;
+                }
+                count++;
+                MainController.ReportProgress(count / total * 100, "Проверка ботов");
+            }
+            MainController.ShowBots(ourBots);
+            MainController.ReportProgress(100, "Готово");
+        }
         private static IEnumerable<OurBot> GetBots()
         {
             var bots = new List<OurBot>();

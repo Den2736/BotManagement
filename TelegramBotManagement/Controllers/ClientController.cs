@@ -54,6 +54,7 @@ namespace TelegramBotManagement.Controllers
                     db.Update(client);
                 }
                 MessageBox.Show("Сохранено", "Сохранено", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                Form.UpdateClient(client);
                 EditForm.Close();
             }
             catch (Exception ex)

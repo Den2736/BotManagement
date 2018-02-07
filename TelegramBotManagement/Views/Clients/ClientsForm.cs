@@ -36,6 +36,15 @@ namespace TelegramBotManagement.Views
             }
         }
 
+        public void UpdateClient(Client client)
+        {
+            var item = ClientList.SelectedItems[0];
+            item.SubItems[1].Text = $"{client.LastName} {client.FirstName}";
+            item.SubItems[2].Text = client.Username;
+            item.SubItems[3].Text = client.Email;
+            item.SubItems[4].Text = client.PhoneNumber;
+        }
+
         private void ClientList_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)

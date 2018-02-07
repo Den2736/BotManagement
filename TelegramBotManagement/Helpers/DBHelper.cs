@@ -56,5 +56,13 @@ namespace TelegramBotManagement.Helpers
                 db.CreateTable<OurBot>();
             }
         }
+
+        public static Client GetBotOwner(OurBot ourBot)
+        {
+            using (var db = GetConnection())
+            {
+                return db.Find<Client>(ourBot.OwnerId);
+            }
+        }
     }
 }

@@ -37,16 +37,13 @@
             this.StatusStrip = new System.Windows.Forms.StatusStrip();
             this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.ProgressBar = new System.Windows.Forms.ToolStripProgressBar();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.btnRegister = new System.Windows.Forms.ToolStripButton();
-            this.btnLaunch = new System.Windows.Forms.ToolStripSplitButton();
-            this.btnLaunchAll = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnStop = new System.Windows.Forms.ToolStripSplitButton();
-            this.btnStopAll = new System.Windows.Forms.ToolStripMenuItem();
-            this.BackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.btnClients = new System.Windows.Forms.ToolStripButton();
+            this.BackgroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.LaunchAllButton = new System.Windows.Forms.ToolStripButton();
+            this.StopAllButton = new System.Windows.Forms.ToolStripButton();
             this.StatusStrip.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -62,6 +59,7 @@
             this.BotOwner,
             this.BotStatus});
             this.BotList.FullRowSelect = true;
+            this.BotList.GridLines = true;
             this.BotList.HideSelection = false;
             this.BotList.Location = new System.Drawing.Point(12, 28);
             this.BotList.Name = "BotList";
@@ -114,12 +112,17 @@
             this.ProgressBar.Size = new System.Drawing.Size(200, 16);
             this.ProgressBar.Visible = false;
             // 
+            // lblStatus
+            // 
+            this.lblStatus.Name = "lblStatus";
+            this.lblStatus.Size = new System.Drawing.Size(0, 17);
+            this.lblStatus.Visible = false;
+            // 
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnRegister,
-            this.btnLaunch,
-            this.btnStop,
+            this.LaunchAllButton,
+            this.StopAllButton,
             this.toolStripSeparator1,
             this.btnClients});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
@@ -127,63 +130,6 @@
             this.toolStrip1.Size = new System.Drawing.Size(784, 25);
             this.toolStrip1.TabIndex = 5;
             this.toolStrip1.Text = "toolStrip1";
-            // 
-            // btnRegister
-            // 
-            this.btnRegister.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnRegister.Image = ((System.Drawing.Image)(resources.GetObject("btnRegister.Image")));
-            this.btnRegister.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnRegister.Name = "btnRegister";
-            this.btnRegister.Size = new System.Drawing.Size(111, 22);
-            this.btnRegister.Text = "Зарегистрировать";
-            this.btnRegister.Click += new System.EventHandler(this.RegisterButton_Click);
-            // 
-            // btnLaunch
-            // 
-            this.btnLaunch.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnLaunch.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnLaunchAll});
-            this.btnLaunch.Image = ((System.Drawing.Image)(resources.GetObject("btnLaunch.Image")));
-            this.btnLaunch.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnLaunch.Name = "btnLaunch";
-            this.btnLaunch.Size = new System.Drawing.Size(78, 22);
-            this.btnLaunch.Text = "Запустить";
-            this.btnLaunch.ButtonClick += new System.EventHandler(this.LaunchButton_Click);
-            // 
-            // btnLaunchAll
-            // 
-            this.btnLaunchAll.Name = "btnLaunchAll";
-            this.btnLaunchAll.Size = new System.Drawing.Size(150, 22);
-            this.btnLaunchAll.Text = "Запустить все";
-            // 
-            // btnStop
-            // 
-            this.btnStop.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnStop.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnStopAll});
-            this.btnStop.Image = ((System.Drawing.Image)(resources.GetObject("btnStop.Image")));
-            this.btnStop.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(87, 22);
-            this.btnStop.Text = "Остановить";
-            // 
-            // btnStopAll
-            // 
-            this.btnStopAll.Name = "btnStopAll";
-            this.btnStopAll.Size = new System.Drawing.Size(159, 22);
-            this.btnStopAll.Text = "Остановить все";
-            // 
-            // BackgroundWorker
-            // 
-            this.BackgroundWorker.WorkerReportsProgress = true;
-            this.BackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BackgroundWorker_DoWork);
-            this.BackgroundWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.BackgroundWorker_ProgressChanged);
-            // 
-            // lblStatus
-            // 
-            this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(0, 17);
-            this.lblStatus.Visible = false;
             // 
             // toolStripSeparator1
             // 
@@ -199,6 +145,31 @@
             this.btnClients.Size = new System.Drawing.Size(59, 22);
             this.btnClients.Text = "Клиенты";
             this.btnClients.Click += new System.EventHandler(this.btnClients_Click);
+            // 
+            // BackgroundWorker
+            // 
+            this.BackgroundWorker.WorkerReportsProgress = true;
+            this.BackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BackgroundWorker_DoWork);
+            this.BackgroundWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.BackgroundWorker_ProgressChanged);
+            // 
+            // LaunchAllButton
+            // 
+            this.LaunchAllButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.LaunchAllButton.Image = ((System.Drawing.Image)(resources.GetObject("LaunchAllButton.Image")));
+            this.LaunchAllButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.LaunchAllButton.Name = "LaunchAllButton";
+            this.LaunchAllButton.Size = new System.Drawing.Size(87, 22);
+            this.LaunchAllButton.Text = "Запустить все";
+            this.LaunchAllButton.Click += new System.EventHandler(this.LaunchAllButton_Click);
+            // 
+            // StopAllButton
+            // 
+            this.StopAllButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.StopAllButton.Image = ((System.Drawing.Image)(resources.GetObject("StopAllButton.Image")));
+            this.StopAllButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.StopAllButton.Name = "StopAllButton";
+            this.StopAllButton.Size = new System.Drawing.Size(96, 22);
+            this.StopAllButton.Text = "Остановить все";
             // 
             // MainForm
             // 
@@ -231,16 +202,13 @@
         private System.Windows.Forms.StatusStrip StatusStrip;
         private System.Windows.Forms.ToolStripStatusLabel StatusLabel;
         private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripButton btnRegister;
-        private System.Windows.Forms.ToolStripSplitButton btnLaunch;
-        private System.Windows.Forms.ToolStripMenuItem btnLaunchAll;
-        private System.Windows.Forms.ToolStripSplitButton btnStop;
-        private System.Windows.Forms.ToolStripMenuItem btnStopAll;
         private System.Windows.Forms.ToolStripProgressBar ProgressBar;
         private System.ComponentModel.BackgroundWorker BackgroundWorker;
         private System.Windows.Forms.ToolStripStatusLabel lblStatus;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton btnClients;
+        private System.Windows.Forms.ToolStripButton LaunchAllButton;
+        private System.Windows.Forms.ToolStripButton StopAllButton;
     }
 }
 
