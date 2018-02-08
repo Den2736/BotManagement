@@ -20,11 +20,11 @@ namespace TelegramBotManagement.Controllers
 
         public static void Init()
         {
+            DBHelper.CheckDB();
             Form.OnLaunchButtonClick += Form_OnLaunchButtonClick;
             Form.OnClientsButtonClick += Form_OnClientsButtonClick;
             BotController.Init();
             ClientController.Init();
-
             Form.ShowDialog();
         }
 

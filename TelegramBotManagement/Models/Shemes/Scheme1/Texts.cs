@@ -10,13 +10,24 @@ namespace TelegramBotManagement.Models.Shemes.Text1
 {
     public class Texts : TextsBase
     {
-        public override string FileName { get; set; }
+        public Texts(string filePath)
+        {
+            FilePath = filePath;
+            Lamagna = new Lamagna();
+            Trippier = new Trippier();
+            MainProduct = new MainProduct();
+            Other = new Other();
+            Load();
+        }
+
+        protected override string FilePath { get; set; }
         public Lamagna Lamagna { get; set; }
         public Trippier Trippier { get; set; }
         public MainProduct MainProduct { get; set; }
         public Other Other { get; set; }
     }
 
+    [DisplayName("Другое")]
     public class Other
     {
         [DisplayName("Положительный ответ")] public string Positive { get; set; }
@@ -24,6 +35,7 @@ namespace TelegramBotManagement.Models.Shemes.Text1
         [DisplayName("Контакты")] public string Contacts { get; set; }
     }
 
+    [DisplayName("Лидмагнит")]
     public class Lamagna
     {
         [DisplayName("Приветствие")] public string Greeting { get; set; }
@@ -37,6 +49,7 @@ namespace TelegramBotManagement.Models.Shemes.Text1
         [DisplayName("Кнопка 3")] public string Button3 { get; set; }
     }
 
+    [DisplayName("Трипвайер")]
     public class Trippier
     {
         [DisplayName("Текст 1")] public string Text1 { get; set; }
@@ -46,6 +59,7 @@ namespace TelegramBotManagement.Models.Shemes.Text1
         [DisplayName("Кнопка 1")] public string Button1 { get; set; }
     }
 
+    [DisplayName("Гланвый продукт")]
     public class MainProduct
     {
         [DisplayName("Текст 1")] public string Text1 { get; set; }

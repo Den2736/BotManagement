@@ -39,11 +39,11 @@
             this.ProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.LaunchAllButton = new System.Windows.Forms.ToolStripButton();
+            this.StopAllButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.btnClients = new System.Windows.Forms.ToolStripButton();
             this.BackgroundWorker = new System.ComponentModel.BackgroundWorker();
-            this.LaunchAllButton = new System.Windows.Forms.ToolStripButton();
-            this.StopAllButton = new System.Windows.Forms.ToolStripButton();
             this.StatusStrip.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -131,6 +131,25 @@
             this.toolStrip1.TabIndex = 5;
             this.toolStrip1.Text = "toolStrip1";
             // 
+            // LaunchAllButton
+            // 
+            this.LaunchAllButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.LaunchAllButton.Image = ((System.Drawing.Image)(resources.GetObject("LaunchAllButton.Image")));
+            this.LaunchAllButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.LaunchAllButton.Name = "LaunchAllButton";
+            this.LaunchAllButton.Size = new System.Drawing.Size(87, 22);
+            this.LaunchAllButton.Text = "Запустить все";
+            this.LaunchAllButton.Click += new System.EventHandler(this.LaunchAllButton_Click);
+            // 
+            // StopAllButton
+            // 
+            this.StopAllButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.StopAllButton.Image = ((System.Drawing.Image)(resources.GetObject("StopAllButton.Image")));
+            this.StopAllButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.StopAllButton.Name = "StopAllButton";
+            this.StopAllButton.Size = new System.Drawing.Size(96, 22);
+            this.StopAllButton.Text = "Остановить все";
+            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
@@ -152,33 +171,14 @@
             this.BackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BackgroundWorker_DoWork);
             this.BackgroundWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.BackgroundWorker_ProgressChanged);
             // 
-            // LaunchAllButton
-            // 
-            this.LaunchAllButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.LaunchAllButton.Image = ((System.Drawing.Image)(resources.GetObject("LaunchAllButton.Image")));
-            this.LaunchAllButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.LaunchAllButton.Name = "LaunchAllButton";
-            this.LaunchAllButton.Size = new System.Drawing.Size(87, 22);
-            this.LaunchAllButton.Text = "Запустить все";
-            this.LaunchAllButton.Click += new System.EventHandler(this.LaunchAllButton_Click);
-            // 
-            // StopAllButton
-            // 
-            this.StopAllButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.StopAllButton.Image = ((System.Drawing.Image)(resources.GetObject("StopAllButton.Image")));
-            this.StopAllButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.StopAllButton.Name = "StopAllButton";
-            this.StopAllButton.Size = new System.Drawing.Size(96, 22);
-            this.StopAllButton.Text = "Остановить все";
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 561);
+            this.Controls.Add(this.BotList);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.StatusStrip);
-            this.Controls.Add(this.BotList);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";

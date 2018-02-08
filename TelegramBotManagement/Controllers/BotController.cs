@@ -6,12 +6,15 @@ using System.Threading.Tasks;
 using Telegram.Bot;
 using TelegramBotManagement.Helpers;
 using TelegramBotManagement.Models;
+using TelegramBotManagement.Models.Shemes;
 using TelegramBotManagement.Views;
 
 namespace TelegramBotManagement.Controllers
 {
     public static class BotController
     {
+        private static Dictionary<TelegramBotClient, OurBot> Bots { get; set; }
+
         public static void Init()
         {
             MainController.OnLaunchButtonClick += OnLaunchButtonClick;
@@ -20,13 +23,50 @@ namespace TelegramBotManagement.Controllers
 
         private static void OnLaunchButtonClick(object sender, EventArgs e)
         {
-           
+            Bots = new Dictionary<TelegramBotClient, OurBot>();
+            var ourBots = GetBots();
+            foreach (var bot in ourBots)
+            {
+                LaunchBot(bot);
+            }
+            MainController.ShowBots(ourBots);
         }
 
         private static void LaunchBot(OurBot ourBot)
         {
+            try
+            {
+                ourBot.TBot = new TelegramBotClient(ourBot.Token);
+                ourBot.Status = BotStatus.Offline;
+            }
+            catch (ArgumentException)
+            {
+                ourBot.Status = BotStatus.NotFound;
+                return;
+            }
 
+            ourBot.Sheme = SchemeBase.GetShemeFor(ourBot);
+            ourBot.TBot.OnCallbackQuery += Bot_OnCallbackQuery;
+            ourBot.TBot.OnMessage += TBot_OnMessage;
+            ourBot.TBot.StartReceiving();
+            ourBot.Status = BotStatus.Online;
+            Bots.Add(ourBot.TBot, ourBot);
         }
+
+        private static void TBot_OnMessage(object sender, Telegram.Bot.Args.MessageEventArgs e)
+        {
+            var tBot = sender as TelegramBotClient;
+            var ourBot = Bots[tBot];
+            ourBot.Sheme.Next(e);
+        }
+
+        private static void Bot_OnCallbackQuery(object sender, Telegram.Bot.Args.CallbackQueryEventArgs e)
+        {
+            var tBot = sender as TelegramBotClient;
+            var ourBot = Bots[tBot];
+            ourBot.Sheme.Next(e);
+        }
+
         private static void PrepareBots()
         {
             var ourBots = GetBots();
@@ -37,8 +77,7 @@ namespace TelegramBotManagement.Controllers
                 try
                 {
                     var telegramBot = new TelegramBotClient(ourBot.Token);
-                    ourBot.Bot = telegramBot;
-                    ourBot.Owner = DBHelper.GetBotOwner(ourBot);
+                    ourBot.TBot = telegramBot;
                     ourBot.Status = BotStatus.Offline;
                 }
                 catch (ArgumentException)
@@ -57,6 +96,10 @@ namespace TelegramBotManagement.Controllers
             using (var db = DBHelper.GetConnection())
             {
                 bots = db.Table<OurBot>().ToList();
+                foreach (var bot in bots)
+                {
+                    bot.Owner = db.Find<Client>(bot.OwnerId);
+                }
             }
             return bots;
         }

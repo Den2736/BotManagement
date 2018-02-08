@@ -30,14 +30,14 @@ namespace TelegramBotManagement.Models.Shemes
 
     public abstract class TextsBase: ITexts
     {
-        public abstract string FileName { get; set; }
+        protected abstract string FilePath { get; set; }
 
         public string BackButton = $"{Emoji.Back} Назад";
         public string ToStartButton = $"{Emoji.Top} К началу";
 
         public void Load()
         {
-            var file = XDocument.Load(FileName);
+            var file = XDocument.Load(FilePath);
             var root = file.Element("Root");
 
             foreach (var prop in this.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance))
@@ -103,7 +103,7 @@ namespace TelegramBotManagement.Models.Shemes
             }
 
             // save changes
-            var file = XDocument.Load(FileName);
+            var file = XDocument.Load(FilePath);
             var root = file.Element("Root");
             if (!string.IsNullOrEmpty(block.ToString()))
             {
@@ -128,7 +128,7 @@ namespace TelegramBotManagement.Models.Shemes
                 }
             }
 
-            file.Save(FileName);
+            file.Save(FilePath);
         }
 
         public string GetText(Block? block, string fieldDisplayName)

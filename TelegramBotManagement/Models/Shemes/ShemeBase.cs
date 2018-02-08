@@ -14,12 +14,22 @@ namespace TelegramBotManagement.Models.Shemes
         void Next(MessageEventArgs e);
     }
 
-    public abstract class ShemeBase : ISheme
+    public abstract class SchemeBase : ISheme
     {
-        public abstract TelegramBotClient TBot { get; set; }
+        public TelegramBotClient TBot { get; set; }
 
         public abstract void Next(CallbackQueryEventArgs e);
 
         public abstract void Next(MessageEventArgs e);
+
+        public static ISheme GetShemeFor(OurBot ourBot)
+        {
+            switch (ourBot.SchemeName)
+            {
+                case "Scheme1": return new Shemes.Scheme1.Scheme(ourBot.TBot);
+            }
+
+            return null;
+        }
     }
 }

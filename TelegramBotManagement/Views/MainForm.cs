@@ -27,7 +27,7 @@ namespace TelegramBotManagement
             foreach (var bot in bots)
             {
                 var item = new ListViewItem((BotList.Items.Count + 1).ToString());
-                var telegramBot = bot.Bot.GetMeAsync().Result;
+                var telegramBot = bot.TBot.GetMeAsync().Result;
                 item.SubItems.Add(telegramBot.Username);
                 item.SubItems.Add(bot.Owner.Username);
                 item.SubItems.Add(bot.Status.ToString());

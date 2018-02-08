@@ -79,7 +79,7 @@
     <Compile Include="Models\EventArgs\SaveClientArgs.cs" />
     <Compile Include="Models\OurBot.cs" />
     <Compile Include="Models\Shemes\Scheme1\Keyboards.cs" />
-    <Compile Include="Models\Shemes\Scheme1\Scheme1.cs" />
+    <Compile Include="Models\Shemes\Scheme1\Scheme.cs" />
     <Compile Include="Models\Shemes\Scheme1\Texts.cs" />
     <Compile Include="Models\Shemes\ShemeBase.cs" />
     <Compile Include="Models\Shemes\TextsBase.cs" />
@@ -94,6 +94,12 @@
     </Compile>
     <Compile Include="Views\Clients\EditClientForm.Designer.cs">
       <DependentUpon>EditClientForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LoadingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\LoadingForm.Designer.cs">
+      <DependentUpon>LoadingForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\MainForm.cs">
       <SubType>Form</SubType>
@@ -114,6 +120,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Clients\EditClientForm.resx">
       <DependentUpon>EditClientForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LoadingForm.resx">
+      <DependentUpon>LoadingForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
