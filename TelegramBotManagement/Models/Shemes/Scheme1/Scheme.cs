@@ -15,12 +15,12 @@ namespace TelegramBotManagement.Models.Shemes.Scheme1
         public Scheme(TelegramBotClient tBot)
         {
             TBot = tBot;
-            Texts = new Text1.Texts($"BotsContent/{TBot.GetMeAsync().Result.Username}/Texts.xml");
+            Texts = new Texts($"BotsContent/{TBot.GetMeAsync().Result.Username}/Texts.xml");
             Keyboards = new Keyboards(Texts);
             BotUsername = TBot.GetMeAsync().Result.Username;
         }
 
-        public Text1.Texts Texts { get; set; }
+        public Texts Texts { get; set; }
         public Keyboards Keyboards { get; set; }
         private string BotUsername;
 

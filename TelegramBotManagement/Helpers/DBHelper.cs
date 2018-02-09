@@ -52,6 +52,13 @@ namespace TelegramBotManagement.Helpers
                         OwnerId = 433094062,
                         SchemeName = "Scheme1"
                     });
+
+                    db.Insert(new OurBot()
+                    {
+                        Token = "534255060:AAEanDcBLrlT6OAKAjbhNmtXkMISA_jfNXg",
+                        OwnerId = 433094062,
+                        SchemeName = "Register"
+                    });
                 }
             }
             else

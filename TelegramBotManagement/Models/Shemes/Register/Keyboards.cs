@@ -13,11 +13,11 @@ namespace TelegramBotManagement.Models.Shemes.Register
 {
     public class Keyboards
     {
-        public Keyboards(Text1.Texts texts)
+        public Keyboards(Texts texts)
         {
             Texts = texts;
         }
-        private static Text1.Texts Texts { get; set; }
+        private static Texts Texts { get; set; }
 
         public static InlineKeyboardMarkup PositiveOfNegativeKeyboard => new InlineKeyboardMarkup
         {
@@ -172,10 +172,10 @@ namespace TelegramBotManagement.Models.Shemes.Register
                     new KeyboardButton[]
                     {
                         // Get blocks display names
-                        new KeyboardButton(((DisplayNameAttribute) (typeof(Text1.Lamagna).GetCustomAttribute(typeof(DisplayNameAttribute), false))).DisplayName),
-                        new KeyboardButton(((DisplayNameAttribute) (typeof(Text1.Trippier).GetCustomAttribute(typeof(DisplayNameAttribute), false))).DisplayName),
-                        new KeyboardButton(((DisplayNameAttribute) (typeof(Text1.MainProduct).GetCustomAttribute(typeof(DisplayNameAttribute), false))).DisplayName),
-                        new KeyboardButton(((DisplayNameAttribute) (typeof(Text1.Other).GetCustomAttribute(typeof(DisplayNameAttribute), false))).DisplayName),
+                        new KeyboardButton(((DisplayNameAttribute) (typeof(Lamagna).GetCustomAttribute(typeof(DisplayNameAttribute), false))).DisplayName),
+                        new KeyboardButton(((DisplayNameAttribute) (typeof(Trippier).GetCustomAttribute(typeof(DisplayNameAttribute), false))).DisplayName),
+                        new KeyboardButton(((DisplayNameAttribute) (typeof(MainProduct).GetCustomAttribute(typeof(DisplayNameAttribute), false))).DisplayName),
+                        new KeyboardButton(((DisplayNameAttribute) (typeof(Other).GetCustomAttribute(typeof(DisplayNameAttribute), false))).DisplayName),
                     },
                     new KeyboardButton[]
                     {

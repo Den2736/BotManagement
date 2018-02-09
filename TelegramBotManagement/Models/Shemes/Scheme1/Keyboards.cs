@@ -13,11 +13,11 @@ namespace TelegramBotManagement.Models.Shemes.Scheme1
 {
     public class Keyboards
     {
-        public Keyboards(Text1.Texts texts)
+        public Keyboards(Texts texts)
         {
             Texts = texts;
         }
-        private static Text1.Texts Texts { get; set; }
+        private static Texts Texts { get; set; }
 
         public static InlineKeyboardMarkup PositiveOfNegativeKeyboard => new InlineKeyboardMarkup
         {

@@ -13,7 +13,8 @@ namespace TelegramBotManagement
 {
     public partial class MainForm : Form
     {
-        public event EventHandler OnLaunchButtonClick;
+        public event EventHandler OnLaunchAllButtonClick;
+        public event EventHandler OnStopAllButtonClick;
         public event EventHandler OnClientsButtonClick;
 
         public MainForm()
@@ -34,7 +35,7 @@ namespace TelegramBotManagement
 
                 item.SubItems[3].ForeColor =
                     bot.Status == Models.BotStatus.NotFound ? Color.Red
-                    : bot.Status == Models.BotStatus.Online ? Color.Green : Color.Black;
+                    : bot.Status == Models.BotStatus.Online ? Color.Red : Color.Black;
 
                 BotList.Items.Add(item);
             }
@@ -55,20 +56,24 @@ namespace TelegramBotManagement
             StatusLabel.ForeColor = Color.Red;
             StatusLabel.Text = message;
         }
-        public void ShowProgress(int progress, string status="")
+        public void ShowProgress(int progress, string status = "")
         {
-            BackgroundWorker.ReportProgress(progress);
-            lblStatus.Visible = true;
-            lblStatus.Text = status;
+            ProgressBar.Value = progress;
+            ProgressBar.ToolTipText = status;
+            StatusLabel.Text = status;
         }
 
-        private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            OnLaunchButtonClick?.Invoke(this, null);
-        }
         private void btnClients_Click(object sender, EventArgs e)
         {
             OnClientsButtonClick?.Invoke(this, null);
+        }
+        private void LaunchAllButton_Click(object sender, EventArgs e)
+        {
+            OnLaunchAllButtonClick?.Invoke(sender, null);
+        }
+        private void StopAllButton_Click(object sender, EventArgs e)
+        {
+            OnStopAllButtonClick?.Invoke(sender, null);
         }
     }
 }

@@ -87,6 +87,7 @@
     <Compile Include="Models\OurBot.cs" />
     <Compile Include="Models\Shemes\Register\Keyboards.cs" />
     <Compile Include="Models\Shemes\Register\Scheme.cs" />
+    <Compile Include="Models\Shemes\Register\States.cs" />
     <Compile Include="Models\Shemes\Register\Texts.cs" />
     <Compile Include="Models\Shemes\Scheme1\Keyboards.cs" />
     <Compile Include="Models\Shemes\Scheme1\Scheme.cs" />

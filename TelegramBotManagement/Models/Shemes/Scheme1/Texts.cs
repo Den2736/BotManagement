@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TelegramBotManagement.Models.Shemes.Text1
+namespace TelegramBotManagement.Models.Shemes.Scheme1
 {
     public class Texts : TextsBase
     {

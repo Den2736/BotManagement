@@ -15,14 +15,16 @@ namespace TelegramBotManagement.Controllers
         private static MainForm Form;
         private static RegisterBotForm registerForm;
 
-        public static event EventHandler OnLaunchButtonClick;
+        public static event EventHandler OnLaunchAllButtonClick;
+        public static event EventHandler OnStopAllButtonClick;
         public static event EventHandler OnClientsButtonClick;
 
         public static void Init()
         {
             Form = new MainForm();
-            Form.OnLaunchButtonClick += Form_OnLaunchButtonClick;
+            Form.OnLaunchAllButtonClick += Form_OnLaunchButtonClick;
             Form.OnClientsButtonClick += Form_OnClientsButtonClick;
+            Form.OnStopAllButtonClick += Form_OnStopAllButtonClick;
             Form.Show();
             DBHelper.CheckDB();
             BotController.Init();
@@ -30,6 +32,8 @@ namespace TelegramBotManagement.Controllers
             Form.Hide();
             Form.ShowDialog();
         }
+
+
 
         public static void SetNeutralStatus(string message)
         {
@@ -48,23 +52,24 @@ namespace TelegramBotManagement.Controllers
         {
             Form.ShowBots(bots);
         }
-
         public static void ReportProgress(int progress, string status = "")
         {
             Form.ShowProgress(progress, status);
         }
 
+        private static void Form_OnStopAllButtonClick(object sender, EventArgs e)
+        {
+            OnStopAllButtonClick?.Invoke(sender, null);
+        }
         private static void Form_OnLaunchButtonClick(object sender, EventArgs e)
         {
-            OnLaunchButtonClick?.Invoke(sender, null);
+            OnLaunchAllButtonClick?.Invoke(sender, null);
         }
-
         private static void Form_OnRegisterButtonClick(object sender, EventArgs e)
         {
             registerForm = new RegisterBotForm();
             registerForm.ShowDialog();
         }
-
         private static void Form_OnClientsButtonClick(object sender, EventArgs e)
         {
             OnClientsButtonClick?.Invoke(sender, null);

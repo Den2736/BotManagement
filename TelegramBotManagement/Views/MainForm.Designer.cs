@@ -37,7 +37,6 @@
             this.StatusStrip = new System.Windows.Forms.StatusStrip();
             this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.ProgressBar = new System.Windows.Forms.ToolStripProgressBar();
-            this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.LaunchAllButton = new System.Windows.Forms.ToolStripButton();
             this.StopAllButton = new System.Windows.Forms.ToolStripButton();
@@ -91,9 +90,8 @@
             // StatusStrip
             // 
             this.StatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.StatusLabel,
             this.ProgressBar,
-            this.lblStatus});
+            this.StatusLabel});
             this.StatusStrip.Location = new System.Drawing.Point(0, 539);
             this.StatusStrip.Name = "StatusStrip";
             this.StatusStrip.Size = new System.Drawing.Size(784, 22);
@@ -103,18 +101,13 @@
             // StatusLabel
             // 
             this.StatusLabel.Name = "StatusLabel";
-            this.StatusLabel.Size = new System.Drawing.Size(0, 17);
+            this.StatusLabel.Size = new System.Drawing.Size(66, 17);
+            this.StatusLabel.Text = "statusLabel";
             // 
             // ProgressBar
             // 
             this.ProgressBar.Name = "ProgressBar";
             this.ProgressBar.Size = new System.Drawing.Size(200, 16);
-            // 
-            // lblStatus
-            // 
-            this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(0, 17);
-            this.lblStatus.Visible = false;
             // 
             // toolStrip1
             // 
@@ -147,6 +140,7 @@
             this.StopAllButton.Name = "StopAllButton";
             this.StopAllButton.Size = new System.Drawing.Size(96, 22);
             this.StopAllButton.Text = "Остановить все";
+            this.StopAllButton.Click += new System.EventHandler(this.StopAllButton_Click);
             // 
             // toolStripSeparator1
             // 
@@ -195,7 +189,6 @@
         private System.Windows.Forms.ToolStripStatusLabel StatusLabel;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripProgressBar ProgressBar;
-        private System.Windows.Forms.ToolStripStatusLabel lblStatus;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton btnClients;
         private System.Windows.Forms.ToolStripButton LaunchAllButton;

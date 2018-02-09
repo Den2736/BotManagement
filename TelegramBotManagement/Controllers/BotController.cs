@@ -15,36 +15,31 @@ namespace TelegramBotManagement.Controllers
     public static class BotController
     {
         private static Dictionary<TelegramBotClient, OurBot> Bots { get; set; }
-        private static BackgroundWorker worker;
 
         public static void Init()
         {
-            MainController.OnLaunchButtonClick += OnLaunchButtonClick;
-            worker = new BackgroundWorker();
-            worker.WorkerReportsProgress = true;
-            worker.DoWork += Worker_DoWork;
+            MainController.OnLaunchAllButtonClick += LaunchBots;
+            MainController.OnStopAllButtonClick += StopBots;
             PrepareBots();
         }
 
-        private static void Worker_DoWork(object sender, DoWorkEventArgs e)
+        private static void LaunchBots(object sender, EventArgs e)
         {
             Bots = new Dictionary<TelegramBotClient, OurBot>();
             var ourBots = GetBots();
+
+            int total = ourBots.Count();
+            int count = 0;
+
             foreach (var bot in ourBots)
             {
                 LaunchBot(bot);
+                count++;
+                MainController.ReportProgress(count / total * 100, "Активация ботов");
             }
             MainController.ShowBots(ourBots);
+            MainController.ReportProgress(0, "Активация ботов завершена");
         }
-
-        private static void OnLaunchButtonClick(object sender, EventArgs e)
-        {
-            if (!worker.IsBusy)
-            {
-                Worker_DoWork(null, null);
-            }
-        }
-
         private static void LaunchBot(OurBot ourBot)
         {
             try
@@ -67,6 +62,23 @@ namespace TelegramBotManagement.Controllers
             Bots.Add(ourBot.TBot, ourBot);
         }
 
+        private static void StopBots(object sender, EventArgs e)
+        {
+            int total = Bots.Count();
+            int count = 0;
+
+            foreach (var tBot in Bots.Keys)
+            {
+                tBot.StopReceiving();
+                Bots[tBot].Status = BotStatus.Offline;
+
+                count++;
+                MainController.ReportProgress(count / total * 100, "Деактивация ботов");
+            }
+            MainController.ShowBots(Bots.Values);
+            MainController.ReportProgress(0, "Деактивация ботов завершена");
+        }
+
         private static void TBot_OnMessage(object sender, Telegram.Bot.Args.MessageEventArgs e)
         {
             var tBot = sender as TelegramBotClient;
@@ -85,7 +97,6 @@ namespace TelegramBotManagement.Controllers
                 }
             }
         }
-
         private static void Bot_OnCallbackQuery(object sender, Telegram.Bot.Args.CallbackQueryEventArgs e)
         {
             var tBot = sender as TelegramBotClient;
@@ -128,6 +139,15 @@ namespace TelegramBotManagement.Controllers
                 }
             }
             return bots;
+        }
+
+        private static void OnStopAllButtonClick(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+        private static void Worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            MainController.ReportProgress(e.ProgressPercentage, e.UserState as string);
         }
 
         public static bool IsOwner(int userId, TelegramBotClient tBot)
