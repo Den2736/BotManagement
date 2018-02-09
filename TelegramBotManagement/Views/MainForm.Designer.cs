@@ -43,7 +43,6 @@
             this.StopAllButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.btnClients = new System.Windows.Forms.ToolStripButton();
-            this.BackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.StatusStrip.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -110,7 +109,6 @@
             // 
             this.ProgressBar.Name = "ProgressBar";
             this.ProgressBar.Size = new System.Drawing.Size(200, 16);
-            this.ProgressBar.Visible = false;
             // 
             // lblStatus
             // 
@@ -165,12 +163,6 @@
             this.btnClients.Text = "Клиенты";
             this.btnClients.Click += new System.EventHandler(this.btnClients_Click);
             // 
-            // BackgroundWorker
-            // 
-            this.BackgroundWorker.WorkerReportsProgress = true;
-            this.BackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BackgroundWorker_DoWork);
-            this.BackgroundWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.BackgroundWorker_ProgressChanged);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -203,7 +195,6 @@
         private System.Windows.Forms.ToolStripStatusLabel StatusLabel;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripProgressBar ProgressBar;
-        private System.ComponentModel.BackgroundWorker BackgroundWorker;
         private System.Windows.Forms.ToolStripStatusLabel lblStatus;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton btnClients;

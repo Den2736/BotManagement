@@ -12,11 +12,14 @@ namespace TelegramBotManagement.Models.Shemes
     {
         void Next(CallbackQueryEventArgs e);
         void Next(MessageEventArgs e);
+        void Start(MessageEventArgs e);
     }
 
     public abstract class SchemeBase : ISheme
     {
         public TelegramBotClient TBot { get; set; }
+
+        public abstract void Start(MessageEventArgs e);
 
         public abstract void Next(CallbackQueryEventArgs e);
 
@@ -31,5 +34,6 @@ namespace TelegramBotManagement.Models.Shemes
 
             return null;
         }
+
     }
 }

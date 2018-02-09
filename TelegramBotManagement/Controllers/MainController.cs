@@ -12,7 +12,7 @@ namespace TelegramBotManagement.Controllers
 {
     public static class MainController
     {
-        private static MainForm Form = new MainForm();
+        private static MainForm Form;
         private static RegisterBotForm registerForm;
 
         public static event EventHandler OnLaunchButtonClick;
@@ -20,11 +20,14 @@ namespace TelegramBotManagement.Controllers
 
         public static void Init()
         {
-            DBHelper.CheckDB();
+            Form = new MainForm();
             Form.OnLaunchButtonClick += Form_OnLaunchButtonClick;
             Form.OnClientsButtonClick += Form_OnClientsButtonClick;
+            Form.Show();
+            DBHelper.CheckDB();
             BotController.Init();
             ClientController.Init();
+            Form.Hide();
             Form.ShowDialog();
         }
 

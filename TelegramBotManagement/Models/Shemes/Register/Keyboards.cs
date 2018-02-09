@@ -9,7 +9,7 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.InlineKeyboardButtons;
 using Telegram.Bot.Types.ReplyMarkups;
 
-namespace TelegramBotManagement.Models.Shemes.Scheme1
+namespace TelegramBotManagement.Models.Shemes.Register
 {
     public class Keyboards
     {
@@ -31,9 +31,9 @@ namespace TelegramBotManagement.Models.Shemes.Scheme1
                 }
         };
 
-        public static class Lamagna
+        public class Lamagna
         {
-            public static InlineKeyboardMarkup GreetingKeyboard => new InlineKeyboardMarkup
+            public InlineKeyboardMarkup GreetingKeyboard => new InlineKeyboardMarkup
             {
                 InlineKeyboard = new InlineKeyboardButton[][]
                 {
@@ -44,7 +44,7 @@ namespace TelegramBotManagement.Models.Shemes.Scheme1
                 }
             };
 
-            public static InlineKeyboardMarkup ExtendedGreetingKeyboard => new InlineKeyboardMarkup
+            public InlineKeyboardMarkup ExtendedGreetingKeyboard => new InlineKeyboardMarkup
             {
                 InlineKeyboard = new InlineKeyboardButton[][]
                 {
@@ -56,11 +56,11 @@ namespace TelegramBotManagement.Models.Shemes.Scheme1
                 }
             };
 
-            public static InlineKeyboardMarkup Text1Keyboard => PositiveOfNegativeKeyboard;
+            public InlineKeyboardMarkup Text1Keyboard => PositiveOfNegativeKeyboard;
 
-            public static InlineKeyboardMarkup Text2Keyboard => PositiveOfNegativeKeyboard;
+            public InlineKeyboardMarkup Text2Keyboard => PositiveOfNegativeKeyboard;
 
-            public static InlineKeyboardMarkup Text3Keyboard => new InlineKeyboardMarkup
+            public InlineKeyboardMarkup Text3Keyboard => new InlineKeyboardMarkup
             {
                 InlineKeyboard = new InlineKeyboardButton[][]
                 {
@@ -71,7 +71,7 @@ namespace TelegramBotManagement.Models.Shemes.Scheme1
                 }
             };
 
-            public static InlineKeyboardMarkup Text4Keyboard => new InlineKeyboardMarkup
+            public InlineKeyboardMarkup Text4Keyboard => new InlineKeyboardMarkup
             {
                 InlineKeyboard = new InlineKeyboardButton[][]
                 {
@@ -83,12 +83,12 @@ namespace TelegramBotManagement.Models.Shemes.Scheme1
             };
         }
 
-        public static class Trippier
+        public class Trippier
         {
-            public static InlineKeyboardMarkup Text1Keyboard => PositiveOfNegativeKeyboard;
-            public static InlineKeyboardMarkup Text2Keyboard => PositiveOfNegativeKeyboard;
+            public InlineKeyboardMarkup Text1Keyboard => PositiveOfNegativeKeyboard;
+            public InlineKeyboardMarkup Text2Keyboard => PositiveOfNegativeKeyboard;
 
-            public static InlineKeyboardMarkup Text3Keyboard => new InlineKeyboardMarkup
+            public InlineKeyboardMarkup Text3Keyboard => new InlineKeyboardMarkup
             {
                 InlineKeyboard = new InlineKeyboardButton[][]
                 {
@@ -100,9 +100,9 @@ namespace TelegramBotManagement.Models.Shemes.Scheme1
             };
         }
 
-        public static class MainProduct
+        public class MainProduct
         {
-            public static InlineKeyboardMarkup Text1Keyboard => new InlineKeyboardMarkup
+            public InlineKeyboardMarkup Text1Keyboard => new InlineKeyboardMarkup
             {
                 InlineKeyboard = new InlineKeyboardButton[][]
                 {
@@ -113,7 +113,7 @@ namespace TelegramBotManagement.Models.Shemes.Scheme1
                 }
             };
 
-            public static InlineKeyboardMarkup ContactsKeyboard => new InlineKeyboardMarkup
+            public InlineKeyboardMarkup ContactsKeyboard => new InlineKeyboardMarkup
             {
                 InlineKeyboard = new InlineKeyboardButton[][]
                 {
@@ -125,9 +125,9 @@ namespace TelegramBotManagement.Models.Shemes.Scheme1
             };
         }
 
-        public static class PersonalAccount
+        public class PersonalAccount
         {
-            public static ReplyKeyboardMarkup ChooseSettingKeyboard => new ReplyKeyboardMarkup
+            public ReplyKeyboardMarkup ChooseSettingKeyboard => new ReplyKeyboardMarkup
             {
                 Keyboard = new KeyboardButton[][]
                 {
@@ -141,7 +141,7 @@ namespace TelegramBotManagement.Models.Shemes.Scheme1
                 OneTimeKeyboard = true,
             };
 
-            public static ReplyKeyboardMarkup ChooseStatisticsKeyboard => new ReplyKeyboardMarkup
+            public ReplyKeyboardMarkup ChooseStatisticsKeyboard => new ReplyKeyboardMarkup
             {
                 Keyboard = new KeyboardButton[][]
                 {
@@ -165,17 +165,17 @@ namespace TelegramBotManagement.Models.Shemes.Scheme1
                 OneTimeKeyboard = true,
             };
 
-            public static ReplyKeyboardMarkup ChooseBlockKeyboard => new ReplyKeyboardMarkup
+            public ReplyKeyboardMarkup ChooseBlockKeyboard => new ReplyKeyboardMarkup
             {
                 Keyboard = new KeyboardButton[][]
                 {
                     new KeyboardButton[]
                     {
                         // Get blocks display names
-                        new KeyboardButton(Texts.GetDisplayName(Texts.Lamagna)),
-                        new KeyboardButton(Texts.GetDisplayName(Texts.Trippier)),
-                        new KeyboardButton(Texts.GetDisplayName(Texts.MainProduct)),
-                        new KeyboardButton(Texts.GetDisplayName(Texts.Other)),
+                        new KeyboardButton(((DisplayNameAttribute) (typeof(Text1.Lamagna).GetCustomAttribute(typeof(DisplayNameAttribute), false))).DisplayName),
+                        new KeyboardButton(((DisplayNameAttribute) (typeof(Text1.Trippier).GetCustomAttribute(typeof(DisplayNameAttribute), false))).DisplayName),
+                        new KeyboardButton(((DisplayNameAttribute) (typeof(Text1.MainProduct).GetCustomAttribute(typeof(DisplayNameAttribute), false))).DisplayName),
+                        new KeyboardButton(((DisplayNameAttribute) (typeof(Text1.Other).GetCustomAttribute(typeof(DisplayNameAttribute), false))).DisplayName),
                     },
                     new KeyboardButton[]
                     {
@@ -186,7 +186,7 @@ namespace TelegramBotManagement.Models.Shemes.Scheme1
                 OneTimeKeyboard = true,
             };
 
-            public static ReplyKeyboardMarkup ChooseTextKeyboard(string blockName)
+            public ReplyKeyboardMarkup ChooseTextKeyboard(string blockName)
             {
                 List<KeyboardButton[]> buttons = new List<KeyboardButton[]>();
 
@@ -216,7 +216,7 @@ namespace TelegramBotManagement.Models.Shemes.Scheme1
                 };
             }
 
-            public static ReplyKeyboardMarkup EnterNewTextKeyboard => new ReplyKeyboardMarkup
+            public ReplyKeyboardMarkup EnterNewTextKeyboard => new ReplyKeyboardMarkup
             {
                 Keyboard = new KeyboardButton[][]
                 {

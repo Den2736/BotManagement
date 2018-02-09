@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,14 +15,18 @@ namespace TelegramBotManagement.Controllers
     public static class BotController
     {
         private static Dictionary<TelegramBotClient, OurBot> Bots { get; set; }
+        private static BackgroundWorker worker;
 
         public static void Init()
         {
             MainController.OnLaunchButtonClick += OnLaunchButtonClick;
+            worker = new BackgroundWorker();
+            worker.WorkerReportsProgress = true;
+            worker.DoWork += Worker_DoWork;
             PrepareBots();
         }
 
-        private static void OnLaunchButtonClick(object sender, EventArgs e)
+        private static void Worker_DoWork(object sender, DoWorkEventArgs e)
         {
             Bots = new Dictionary<TelegramBotClient, OurBot>();
             var ourBots = GetBots();
@@ -30,6 +35,14 @@ namespace TelegramBotManagement.Controllers
                 LaunchBot(bot);
             }
             MainController.ShowBots(ourBots);
+        }
+
+        private static void OnLaunchButtonClick(object sender, EventArgs e)
+        {
+            if (!worker.IsBusy)
+            {
+                Worker_DoWork(null, null);
+            }
         }
 
         private static void LaunchBot(OurBot ourBot)
@@ -45,7 +58,8 @@ namespace TelegramBotManagement.Controllers
                 return;
             }
 
-            ourBot.Sheme = SchemeBase.GetShemeFor(ourBot);
+            DBHelper.CheckDB(ourBot.TBot.GetMeAsync().Result.Username);
+            ourBot.Scheme = SchemeBase.GetShemeFor(ourBot);
             ourBot.TBot.OnCallbackQuery += Bot_OnCallbackQuery;
             ourBot.TBot.OnMessage += TBot_OnMessage;
             ourBot.TBot.StartReceiving();
@@ -57,14 +71,26 @@ namespace TelegramBotManagement.Controllers
         {
             var tBot = sender as TelegramBotClient;
             var ourBot = Bots[tBot];
-            ourBot.Sheme.Next(e);
+            var message = e.Message;
+            if (message.Type == Telegram.Bot.Types.Enums.MessageType.TextMessage)
+            {
+                if (message.Text == "/start")
+                {
+                    DBHelper.AddUser(tBot.GetMeAsync().Result.Username, message.From);
+                    ourBot.Scheme.Start(e);
+                }
+                else
+                {
+                    ourBot.Scheme.Next(e);
+                }
+            }
         }
 
         private static void Bot_OnCallbackQuery(object sender, Telegram.Bot.Args.CallbackQueryEventArgs e)
         {
             var tBot = sender as TelegramBotClient;
             var ourBot = Bots[tBot];
-            ourBot.Sheme.Next(e);
+            ourBot.Scheme.Next(e);
         }
 
         private static void PrepareBots()
@@ -102,6 +128,12 @@ namespace TelegramBotManagement.Controllers
                 }
             }
             return bots;
+        }
+
+        public static bool IsOwner(int userId, TelegramBotClient tBot)
+        {
+            var ourBot = Bots[tBot];
+            return ourBot.OwnerId == userId;
         }
     }
 }

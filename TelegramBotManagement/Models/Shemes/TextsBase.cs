@@ -26,10 +26,19 @@ namespace TelegramBotManagement.Models.Shemes
         string GetText(Block? block, string fieldDisplayName);
 
         PropertyInfo GetFieldInfo(object blockObj, string fieldDisplayName);
+
+        string GetDisplayName(object obj);
+
+        bool ValidBlockName(string blockName);
     }
 
     public abstract class TextsBase: ITexts
     {
+        public TextsBase()
+        {
+            PersonalAccount = new PersonalAccount();
+        }
+
         protected abstract string FilePath { get; set; }
 
         public string BackButton = $"{Emoji.Back} Назад";
@@ -189,6 +198,16 @@ namespace TelegramBotManagement.Models.Shemes
             }
 
             return null;
+        }
+
+        public string GetDisplayName(object obj)
+        {
+            return ((DisplayNameAttribute)(obj.GetType().GetCustomAttribute(typeof(DisplayNameAttribute), false))).DisplayName;
+        }
+
+        public bool ValidBlockName(string blockName)
+        {
+            return Enum.GetNames(typeof(Block)).Contains(blockName);
         }
 
         public PersonalAccount PersonalAccount { get; set; }

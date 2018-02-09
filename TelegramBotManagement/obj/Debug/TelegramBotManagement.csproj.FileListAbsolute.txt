@@ -71,3 +71,5 @@ C:\Users\babenko.dy\Documents\GitHub\BotManagement\TelegramBotManagement\obj\Deb
 C:\Users\babenko.dy\Documents\GitHub\BotManagement\TelegramBotManagement\obj\Debug\TelegramBotManagement.pdb
 C:\Users\babenko.dy\Documents\GitHub\BotManagement\TelegramBotManagement\obj\Debug\TelegramBotManagement.Views.Clients.EditClientForm.resources
 C:\Users\babenko.dy\Documents\GitHub\BotManagement\TelegramBotManagement\obj\Debug\TelegramBotManagement.csprojResolveAssemblyReference.cache
+C:\Users\babenko.dy\Documents\GitHub\BotManagement\TelegramBotManagement\bin\Debug\StackExchange.Redis.dll
+C:\Users\babenko.dy\Documents\GitHub\BotManagement\TelegramBotManagement\bin\Debug\StackExchange.Redis.xml

@@ -52,8 +52,12 @@
     <Reference Include="SQLitePCLRaw.provider.e_sqlite3, Version=1.0.0.0, Culture=neutral, PublicKeyToken=9c301db686d0bd12, processorArchitecture=MSIL">
       <HintPath>..\packages\SQLitePCLRaw.provider.e_sqlite3.net45.1.1.5\lib\net45\SQLitePCLRaw.provider.e_sqlite3.dll</HintPath>
     </Reference>
+    <Reference Include="StackExchange.Redis, Version=1.2.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\StackExchange.Redis.1.2.6\lib\net46\StackExchange.Redis.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -72,14 +76,21 @@
     <Compile Include="Controllers\ClientController.cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Helpers\DBHelper.cs" />
+    <Compile Include="Helpers\Logger.cs" />
+    <Compile Include="Helpers\RedisConnectorHelper.cs" />
     <Compile Include="Models\BotStatus.cs" />
+    <Compile Include="Models\BotUser.cs" />
     <Compile Include="Models\Client.cs" />
     <Compile Include="Models\Emoji.cs" />
     <Compile Include="Models\EventArgs\ContextMenuItemClickArgs.cs" />
     <Compile Include="Models\EventArgs\SaveClientArgs.cs" />
     <Compile Include="Models\OurBot.cs" />
+    <Compile Include="Models\Shemes\Register\Keyboards.cs" />
+    <Compile Include="Models\Shemes\Register\Scheme.cs" />
+    <Compile Include="Models\Shemes\Register\Texts.cs" />
     <Compile Include="Models\Shemes\Scheme1\Keyboards.cs" />
     <Compile Include="Models\Shemes\Scheme1\Scheme.cs" />
+    <Compile Include="Models\Shemes\Scheme1\States.cs" />
     <Compile Include="Models\Shemes\Scheme1\Texts.cs" />
     <Compile Include="Models\Shemes\ShemeBase.cs" />
     <Compile Include="Models\Shemes\TextsBase.cs" />
@@ -94,12 +105,6 @@
     </Compile>
     <Compile Include="Views\Clients\EditClientForm.Designer.cs">
       <DependentUpon>EditClientForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\LoadingForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\LoadingForm.Designer.cs">
-      <DependentUpon>LoadingForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\MainForm.cs">
       <SubType>Form</SubType>
@@ -120,9 +125,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Clients\EditClientForm.resx">
       <DependentUpon>EditClientForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\LoadingForm.resx">
-      <DependentUpon>LoadingForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

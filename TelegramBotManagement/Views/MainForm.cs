@@ -66,22 +66,9 @@ namespace TelegramBotManagement
         {
             OnLaunchButtonClick?.Invoke(this, null);
         }
-        private void BackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            ProgressBar.Value = e.ProgressPercentage;
-        }
-
         private void btnClients_Click(object sender, EventArgs e)
         {
             OnClientsButtonClick?.Invoke(this, null);
-        }
-
-        private void LaunchAllButton_Click(object sender, EventArgs e)
-        {
-            if (!BackgroundWorker.IsBusy)
-            {
-                BackgroundWorker_DoWork(null, null);
-            }
         }
     }
 }
