@@ -28,16 +28,14 @@ namespace TelegramBotManagement.Models.Shemes.Register
             await TBot.SendTextMessageAsync(e.CallbackQuery.From.Id, "CallbackQuery asnwer");
             await TBot.AnswerCallbackQueryAsync(e.CallbackQuery.Id);
         }
-
         public async override void Next(MessageEventArgs e)
         {
             await TBot.SendTextMessageAsync(e.Message.From.Id, "Message asnwer");
         }
 
-
         private State GetUserState(int userId)
         {
-            State state = State.Greeting;
+            State state = State.UnknownClientGreeting;
             var cache = RedisConnectorHelper.Connection.GetDatabase();
             string stateString = cache.StringGet($"Bot{BotUsername}User{userId}State");
             Enum.TryParse(stateString, out state);
@@ -52,7 +50,31 @@ namespace TelegramBotManagement.Models.Shemes.Register
 
         public override void Start(MessageEventArgs e)
         {
-            throw new NotImplementedException();
+            SetStartState(e.Message.From.Id);
+        }
+
+        private void SetStartState(int userId)
+        {
+            bool IsKnownClient = false;
+            using (var db = DBHelper.GetConnection())
+            {
+                IsKnownClient = db.Table<Client>().Any(c => c.Id == userId);
+            }
+
+            if (IsKnownClient)
+            {
+                TBot.SendTextMessageAsync(userId, Texts.KnownClientGreeting);
+
+                var text = Texts.CheckContactData;
+                var keyboard = Keyboards.CheckContactDataKeyboard;
+                TBot.SendTextMessageAsync(userId, text, replyMarkup: keyboard);
+                SetState(userId, State.UnknownClientGreeting);
+            }
+            else
+            {
+                TBot.SendTextMessageAsync(userId, Texts.UnknownClientGreeting);
+                SetState(userId, State.UnknownClientGreeting);
+            }
         }
     }
 }

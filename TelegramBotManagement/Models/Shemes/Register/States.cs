@@ -8,6 +8,11 @@ namespace TelegramBotManagement.Models.Shemes.Register
 {
     public enum State
     {
-        Greeting
+        KnownClientGreeting,
+        CheckContactData,
+        UnknownClientGreeting,
+        GetPhoneNumber,
+        GetEmailAddress,
+        GetBotToken
     }
 }

@@ -94,20 +94,20 @@ namespace TelegramBotManagement.Helpers
             CreateBotDB(botName);
         }
 
+        private static void CreateBotDB(string botName)
+        {
+            using (var db = GetConnection(botName))
+            {
+                db.CreateTable<BotUser>();
+            }
+        }
+
 
         public static Client GetBotOwner(OurBot ourBot)
         {
             using (var db = GetConnection())
             {
                 return db.Find<Client>(ourBot.OwnerId);
-            }
-        }
-
-        public static void CreateBotDB(string botName)
-        {
-            using (var db = GetConnection(botName))
-            {
-                db.CreateTable<BotUser>();
             }
         }
 

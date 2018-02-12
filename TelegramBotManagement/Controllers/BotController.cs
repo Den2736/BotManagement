@@ -80,6 +80,11 @@ namespace TelegramBotManagement.Controllers
             MainController.ReportProgress(0, "Деактивация ботов завершена");
         }
 
+        private static void RegisterNewBot(string token, int ownerId, ISheme sheme)
+        {
+
+        }
+
         private static void TBot_OnMessage(object sender, Telegram.Bot.Args.MessageEventArgs e)
         {
             var tBot = sender as TelegramBotClient;
