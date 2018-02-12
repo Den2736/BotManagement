@@ -27,18 +27,15 @@ namespace TelegramBotManagement
             BotList.Items.Clear();
             foreach (var bot in bots)
             {
-                var item = new ListViewItem((BotList.Items.Count + 1).ToString());
-                var telegramBot = bot.TBot.GetMeAsync().Result;
-                item.SubItems.Add(telegramBot.Username);
-                item.SubItems.Add(bot.Owner.Username);
-                item.SubItems.Add(bot.Status.ToString());
-
-                item.SubItems[3].ForeColor =
-                    bot.Status == Models.BotStatus.NotFound ? Color.Red
-                    : bot.Status == Models.BotStatus.Online ? Color.Red : Color.Black;
-
-                BotList.Items.Add(item);
+                BotList.Items.Add(GetItemFor(bot));
             }
+        }
+        public void UpdateBotInfo(OurBot bot)
+        {
+            var telegramBot = bot.TBot.GetMeAsync().Result;
+            var item = BotList.FindItemWithText(telegramBot.Username);
+            var newItem = GetItemFor(bot);
+            BotList.Items[item.Index] = newItem;
         }
 
         public void SetNeutralStatus(string message)
@@ -61,6 +58,21 @@ namespace TelegramBotManagement
             ProgressBar.Value = progress;
             ProgressBar.ToolTipText = status;
             StatusLabel.Text = status;
+        }
+
+        private ListViewItem GetItemFor(OurBot bot)
+        {
+            var item = new ListViewItem((BotList.Items.Count + 1).ToString());
+            var telegramBot = bot.TBot.GetMeAsync().Result;
+            item.SubItems.Add(telegramBot.Username);
+            item.SubItems.Add(bot.Owner.Username);
+            item.SubItems.Add(bot.Status.ToString());
+
+            item.SubItems[3].ForeColor =
+                bot.Status == Models.BotStatus.NotFound ? Color.Red
+                : bot.Status == Models.BotStatus.Online ? Color.Red : Color.Black;
+
+            return item;
         }
 
         private void btnClients_Click(object sender, EventArgs e)

@@ -33,8 +33,6 @@ namespace TelegramBotManagement.Controllers
             Form.ShowDialog();
         }
 
-
-
         public static void SetNeutralStatus(string message)
         {
             Form.SetNeutralStatus(message);
@@ -51,6 +49,10 @@ namespace TelegramBotManagement.Controllers
         public static void ShowBots(IEnumerable<OurBot> bots)
         {
             Form.ShowBots(bots);
+        }
+        public static void UpdateBotInfo (OurBot bot)
+        {
+            Form.UpdateBotInfo(bot);
         }
         public static void ReportProgress(int progress, string status = "")
         {

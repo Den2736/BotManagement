@@ -34,6 +34,7 @@ namespace TelegramBotManagement.Controllers
             foreach (var bot in ourBots)
             {
                 LaunchBot(bot);
+                MainController.UpdateBotInfo(bot);
                 count++;
                 MainController.ReportProgress(count / total * 100, "Активация ботов");
             }
