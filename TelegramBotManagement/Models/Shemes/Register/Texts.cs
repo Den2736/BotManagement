@@ -10,24 +10,24 @@ namespace TelegramBotManagement.Models.Shemes.Register
 {
     public class Texts : TextsBase
     {
-        public Texts(string filePath)
-        {
-            FilePath = filePath;
-            Load();
-        }
-
         protected override string FilePath { get; set; }
 
-        public string KnownClientGreeting { get; set; }
+        public string KnownClientGreeting => $"Старый знакомый! Привет! {Emoji.Hello}";
 
-        public string CheckContactData { get; set; }
-        public string PhoneNumberChanged { get; set; }
-        public string EmailAddressChanged { get; set; }
-        public string ItsAnActualData { get; set; }
+        public string GetCheckContactDataText(Client client) => 
+            $"Ваши контактные данные не поменялись?{Environment.NewLine}" +
+            $"{Emoji.Phone} Тел. номер: {client.PhoneNumber}" +
+            $"{Emoji.MailBoxUp} E-mail: {client.Email}";
+        public string PhoneNumberChangedButton => $"{Emoji.Phone} Поменялся номер";
+        public string EmailAddressChangedButton => $"{Emoji.MailBoxUp} Поменялась почта";
+        public string ItsAnActualDataButton => $"{Emoji.Success} Это мои актуальные данные";
 
-        public string UnknownClientGreeting { get; set; }
-        public string GetPhoneNumber { get; set; }
-        public string GetEmailAddress { get; set; }
-        public string GetBotToken { get; set; }
+        public string UnknownClientGreeting (Telegram.Bot.Types.User user) => $"Здравствуйте, {user.FirstName}! Для начала давайте лучше узнаем друг друга.";
+        public string LetsButton => $"Давай!{Emoji.WithCheeks}";
+        public string GetPhoneNumber => $"Есть телефон с камерой позвонить?";
+        public string GetPhoneNumberButton => $"Отправить мой номер";
+        public string PhoneNumberSaved => $"Номер сохранён! {Emoji.Success}";
+        public string GetEmailAddress => $"Пришлите мне адрес вашей электронной почты {Emoji.MailBoxUp}";
+        public string GetBotToken => $"Пришлите мне токен {Emoji.Key} вашего бота и мы сделаем из него персонального помощника!";
     }
 }

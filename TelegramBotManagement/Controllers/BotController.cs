@@ -56,7 +56,7 @@ namespace TelegramBotManagement.Controllers
 
             DBHelper.CheckDB(ourBot.TBot.GetMeAsync().Result.Username);
             ourBot.Scheme = SchemeBase.GetShemeFor(ourBot);
-            ourBot.TBot.OnCallbackQuery += Bot_OnCallbackQuery;
+            ourBot.TBot.OnCallbackQuery += TBot_OnCallbackQuery;
             ourBot.TBot.OnMessage += TBot_OnMessage;
             ourBot.TBot.StartReceiving();
             ourBot.Status = BotStatus.Online;
@@ -90,20 +90,17 @@ namespace TelegramBotManagement.Controllers
             var tBot = sender as TelegramBotClient;
             var ourBot = Bots[tBot];
             var message = e.Message;
-            if (message.Type == Telegram.Bot.Types.Enums.MessageType.TextMessage)
+            if (message.Type == Telegram.Bot.Types.Enums.MessageType.TextMessage && message.Text == "/start")
             {
-                if (message.Text == "/start")
-                {
-                    DBHelper.AddUser(tBot.GetMeAsync().Result.Username, message.From);
-                    ourBot.Scheme.Start(e);
-                }
-                else
-                {
-                    ourBot.Scheme.Next(e);
-                }
+                DBHelper.AddUser(tBot.GetMeAsync().Result.Username, message.From);
+                ourBot.Scheme.Start(e);
+            }
+            else
+            {
+                ourBot.Scheme.Next(e);
             }
         }
-        private static void Bot_OnCallbackQuery(object sender, Telegram.Bot.Args.CallbackQueryEventArgs e)
+        private static void TBot_OnCallbackQuery(object sender, Telegram.Bot.Args.CallbackQueryEventArgs e)
         {
             var tBot = sender as TelegramBotClient;
             var ourBot = Bots[tBot];

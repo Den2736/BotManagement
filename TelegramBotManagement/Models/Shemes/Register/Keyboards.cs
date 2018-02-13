@@ -25,17 +25,40 @@ namespace TelegramBotManagement.Models.Shemes.Register
                 {
                     new KeyboardButton[]
                     {
-                        new KeyboardButton(Texts.PhoneNumberChanged)
+                        new KeyboardButton(Texts.PhoneNumberChangedButton)
                     },
                     new KeyboardButton[]
                     {
-                        new KeyboardButton(Texts.EmailAddressChanged)
+                        new KeyboardButton(Texts.EmailAddressChangedButton)
                     },
                     new KeyboardButton[]
                     {
-                        new KeyboardButton(Texts.ItsAnActualData)
+                        new KeyboardButton(Texts.ItsAnActualDataButton)
                     },
                 }
         };
+        public static ReplyKeyboardMarkup GetPhoneNumberKeyboard => new ReplyKeyboardMarkup
+        {
+            Keyboard = new KeyboardButton[][]
+                {
+                    new KeyboardButton[]
+                    {
+                        new KeyboardButton(Texts.GetPhoneNumberButton){ RequestContact = true }
+                    }
+                },
+            ResizeKeyboard = true
+        };
+        public static ReplyKeyboardMarkup UnknownClientGreetingKeyboard => new ReplyKeyboardMarkup
+        {
+            Keyboard = new KeyboardButton[][]
+                {
+                    new KeyboardButton[]
+                    {
+                        new KeyboardButton(Texts.LetsButton)
+                    }
+                },
+            ResizeKeyboard = true
+        };
+
     }
 }

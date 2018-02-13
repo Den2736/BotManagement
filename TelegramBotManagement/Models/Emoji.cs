@@ -14,6 +14,7 @@ namespace TelegramBotManagement.Models
         public static string TextEdit => "📝";
         public static string Text => "📋";
         public static string Pen => "🖌";
+        public static string Key => "🔑";
         public static string Back => "🔙";
         public static string Top => "🔝";
         public static string Block => "🗄";
@@ -22,5 +23,9 @@ namespace TelegramBotManagement.Models
         public static string Success => "✅";
         public static string Error => "⛔️";
         public static string Door => "🚪";
+        public static string Hello => "👋🏻";
+        public static string MailBoxUp => "📫";
+        public static string Phone => "📱";
+        public static string WithCheeks => "☺️";
     }
 }

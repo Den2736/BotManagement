@@ -12,6 +12,8 @@ namespace TelegramBotManagement.Models.Shemes.Register
         CheckContactData,
         UnknownClientGreeting,
         GetPhoneNumber,
+        PhoneNumberReceived,
+        EmailAddressReceived,
         GetEmailAddress,
         GetBotToken
     }

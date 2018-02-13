@@ -242,7 +242,6 @@ namespace TelegramBotManagement.Models.Shemes.Scheme1
             }
         }
 
-
         private State GetUserState(int userId)
         {
             State state = State.Greeting;

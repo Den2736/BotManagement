@@ -19,6 +19,8 @@ namespace TelegramBotManagement.Models.Shemes
     {
         public TelegramBotClient TBot { get; set; }
 
+        public string BotUsername { get; set; }
+
         public abstract void Start(MessageEventArgs e);
 
         public abstract void Next(CallbackQueryEventArgs e);
@@ -30,10 +32,10 @@ namespace TelegramBotManagement.Models.Shemes
             switch (ourBot.SchemeName)
             {
                 case "Scheme1": return new Shemes.Scheme1.Scheme(ourBot.TBot);
+                case "Register": return new Shemes.Register.RegisterScheme(ourBot.TBot);
             }
 
             return null;
         }
-
     }
 }

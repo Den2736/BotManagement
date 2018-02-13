@@ -142,5 +142,13 @@ namespace TelegramBotManagement.Helpers
                 }
             }
         }
+
+        public static bool IsClient(Telegram.Bot.Types.User user)
+        {
+            using (var db = GetConnection())
+            {
+                return db.Table<Client>().Any(c => c.Id == user.Id);
+            }
+        }
     }
 }
