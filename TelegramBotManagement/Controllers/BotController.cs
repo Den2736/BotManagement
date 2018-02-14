@@ -125,7 +125,7 @@ namespace TelegramBotManagement.Controllers
                     ourBot.Status = BotStatus.NotFound;
                 }
                 count++;
-                MainController.ReportProgress(count / total * 100, "Проверка ботов");
+                MainController.ReportProgress((double) count / total * 100, "Проверка ботов");
             }
             MainController.ShowBots(ourBots);
             MainController.ReportProgress(100, "Готово");

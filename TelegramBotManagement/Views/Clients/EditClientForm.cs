@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TelegramBotManagement.Helpers;
 using TelegramBotManagement.Models;
 using TelegramBotManagement.Models.EventArgs;
 
@@ -34,20 +35,14 @@ namespace TelegramBotManagement.Views.Clients
         private void SaveButton_Click(object sender, EventArgs e)
         {
             string email = "";
-
-            System.Text.RegularExpressions.Regex rEMail = new System.Text.RegularExpressions.Regex(@"^[a-zA-Z][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$");
-
-            if (EmailTb.Text.Length > 0)
+            if (FormatHelper.IsEmailAddress(EmailTb.Text))
             {
-                if (!rEMail.IsMatch(EmailTb.Text))
-                {
-                    MessageBox.Show("Неверный формат E-Mail", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    EmailTb.SelectAll();
-                }
-                else
-                {
-                    email = EmailTb.Text;
-                }
+                email = EmailTb.Text;
+            }
+            else
+            {
+                MessageBox.Show("Неверный формат E-Mail", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                EmailTb.SelectAll();
             }
 
             var client = new Client()

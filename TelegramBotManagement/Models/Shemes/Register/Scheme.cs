@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Args;
+using Telegram.Bot.Types;
 using TelegramBotManagement.Helpers;
 
 namespace TelegramBotManagement.Models.Shemes.Register
@@ -17,15 +18,16 @@ namespace TelegramBotManagement.Models.Shemes.Register
             Texts = new Texts();
             Keyboards = new Keyboards(Texts);
             BotUsername = TBot.GetMeAsync().Result.Username;
+            ClientsForRegistration = new Dictionary<int, Client>();
         }
 
+        private static Dictionary<int, Client> ClientsForRegistration { get; set; }  // Id, Client
         public Texts Texts { get; set; }
         public Keyboards Keyboards { get; set; }
 
-        public async override void Next(CallbackQueryEventArgs e)
+        public override void Next(CallbackQueryEventArgs e)
         {
-            await TBot.SendTextMessageAsync(e.CallbackQuery.From.Id, "CallbackQuery asnwer");
-            await TBot.AnswerCallbackQueryAsync(e.CallbackQuery.Id);
+            throw new NotImplementedException();
         }
         public async override void Next(MessageEventArgs e)
         {
@@ -51,11 +53,11 @@ namespace TelegramBotManagement.Models.Shemes.Register
                         }
                         else if (btnText == Texts.EmailAddressChangedButton)
                         {
-
+                            SetGetEmailState(e);
                         }
                         else if (btnText == Texts.ItsAnActualDataButton)
                         {
-
+                            SetGetTokenState(e);
                         }
                         break;
                     }
@@ -64,24 +66,51 @@ namespace TelegramBotManagement.Models.Shemes.Register
                         if (e.Message.Type == Telegram.Bot.Types.Enums.MessageType.ContactMessage)
                         {
                             var contact = e.Message.Contact;
-                            var text = Texts.PhoneNumberSaved;
-
-                            if (DBHelper.IsClient(e.Message.From))
+                            if (contact.UserId == userId)
                             {
-                                Client client = null;
-                                using (var db = DBHelper.GetConnection())
+                                SavePhoneNumber(contact);
+                                await TBot.SendTextMessageAsync(userId, Texts.PhoneNumberSaved);
+
+                                if (DBHelper.IsClient(e.Message.From))
                                 {
-                                    client = db.Find<Client>(client);
-                                    client.PhoneNumber = contact.PhoneNumber;
-                                    db.Update(client);
+                                    SetCheckContactDataState(e);
                                 }
-                                await TBot.SendTextMessageAsync(userId, text);
+                                else
+                                {
+                                    SetGetEmailState(e);
+                                }
+                            }
+                            else
+                            {
+                                await TBot.SendTextMessageAsync(userId, $"{Emoji.Error} Нет, нам нужен ВАШ номер.");
+                            }
+                        }
+                        else
+                        {
+                            await TBot.SendTextMessageAsync(userId, "Нажмите на кнопку внизу, чтобы отправить свой номер.");
+                        }
+                        break;
+                    }
+                case State.GetEmailAddress:
+                    {
+                        if (FormatHelper.IsEmailAddress(e.Message.Text))
+                        {
+                            SaveEmailAddress(e);
+                            await TBot.SendTextMessageAsync(userId, Texts.EmailSaved);
+
+                            if (DBHelper.IsClient(userId))
+                            {
                                 SetCheckContactDataState(e);
                             }
                             else
                             {
-
+                                SaveNewClient(userId);
+                                SetGetTokenState(e);
                             }
+                        }
+                        else
+                        {
+                            await TBot.SendTextMessageAsync(userId, $"{Emoji.Error} Это не адрес электронный почты.");
                         }
                         break;
                     }
@@ -145,6 +174,70 @@ namespace TelegramBotManagement.Models.Shemes.Register
             var keyboard = Keyboards.GetPhoneNumberKeyboard;
             await TBot.SendTextMessageAsync(userId, text, replyMarkup: keyboard);
             SetState(userId, State.GetPhoneNumber);
+        }
+        private async void SetGetEmailState(MessageEventArgs e)
+        {
+            int userId = e.Message.From.Id;
+            var text = Texts.GetEmailAddress;
+            await TBot.SendTextMessageAsync(userId, text);
+            SetState(userId, State.GetEmailAddress);
+        }
+        private void SavePhoneNumber(Contact contact)
+        {
+            int userId = contact.UserId;
+
+            if (DBHelper.IsClient(userId))
+            {
+                Client client = null;
+                using (var db = DBHelper.GetConnection())
+                {
+                    client = db.Find<Client>(userId);
+                    client.PhoneNumber = contact.PhoneNumber;
+                    db.Update(client);
+                }
+            }
+            else
+            {
+                // save to RAM
+                ClientsForRegistration.Add(userId,
+                    new Client()
+                    {
+                        Id = userId,
+                        PhoneNumber = contact.PhoneNumber
+                    });
+            }
+        }
+        private void SaveEmailAddress(MessageEventArgs e)
+        {
+            int userId = e.Message.From.Id;
+            if (DBHelper.IsClient(userId))
+            {
+                Client client = null;
+                using (var db = DBHelper.GetConnection())
+                {
+                    client = db.Find<Client>(userId);
+                    client.Email = e.Message.Text;
+                    db.Update(client);
+                }
+            }
+            else
+            {
+                // save to RAM
+                ClientsForRegistration[userId].Email = e.Message.Text;
+            }
+        }
+        private async void SetGetTokenState(MessageEventArgs e)
+        {
+            int userId = e.Message.From.Id;
+            var text = Texts.GetBotToken;
+            await TBot.SendTextMessageAsync(userId, text);
+        }
+        private void SaveNewClient(int userId)
+        {
+            using (var db = DBHelper.GetConnection())
+            {
+                db.Insert(ClientsForRegistration[userId]);
+            }
         }
     }
 }

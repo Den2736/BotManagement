@@ -53,9 +53,9 @@ namespace TelegramBotManagement
             StatusLabel.ForeColor = Color.Red;
             StatusLabel.Text = message;
         }
-        public void ShowProgress(int progress, string status = "")
+        public void ShowProgress(double progress, string status = "")
         {
-            ProgressBar.Value = progress;
+            ProgressBar.Value = (int) progress;
             ProgressBar.ToolTipText = status;
             StatusLabel.Text = status;
         }

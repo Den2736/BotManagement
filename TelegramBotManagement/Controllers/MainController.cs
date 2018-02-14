@@ -13,7 +13,6 @@ namespace TelegramBotManagement.Controllers
     public static class MainController
     {
         private static MainForm Form;
-        private static RegisterBotForm registerForm;
 
         public static event EventHandler OnLaunchAllButtonClick;
         public static event EventHandler OnStopAllButtonClick;
@@ -54,7 +53,7 @@ namespace TelegramBotManagement.Controllers
         {
             Form.UpdateBotInfo(bot);
         }
-        public static void ReportProgress(int progress, string status = "")
+        public static void ReportProgress(double progress, string status = "")
         {
             Form.ShowProgress(progress, status);
         }
@@ -66,11 +65,6 @@ namespace TelegramBotManagement.Controllers
         private static void Form_OnLaunchButtonClick(object sender, EventArgs e)
         {
             OnLaunchAllButtonClick?.Invoke(sender, null);
-        }
-        private static void Form_OnRegisterButtonClick(object sender, EventArgs e)
-        {
-            registerForm = new RegisterBotForm();
-            registerForm.ShowDialog();
         }
         private static void Form_OnClientsButtonClick(object sender, EventArgs e)
         {

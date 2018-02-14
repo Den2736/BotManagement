@@ -16,7 +16,7 @@ namespace TelegramBotManagement.Models.Shemes.Register
 
         public string GetCheckContactDataText(Client client) => 
             $"Ваши контактные данные не поменялись?{Environment.NewLine}" +
-            $"{Emoji.Phone} Тел. номер: {client.PhoneNumber}" +
+            $"{Emoji.Phone} Тел. номер: {client.PhoneNumber}{Environment.NewLine}" +
             $"{Emoji.MailBoxUp} E-mail: {client.Email}";
         public string PhoneNumberChangedButton => $"{Emoji.Phone} Поменялся номер";
         public string EmailAddressChangedButton => $"{Emoji.MailBoxUp} Поменялась почта";
@@ -28,6 +28,7 @@ namespace TelegramBotManagement.Models.Shemes.Register
         public string GetPhoneNumberButton => $"Отправить мой номер";
         public string PhoneNumberSaved => $"Номер сохранён! {Emoji.Success}";
         public string GetEmailAddress => $"Пришлите мне адрес вашей электронной почты {Emoji.MailBoxUp}";
+        public string EmailSaved => $"Email сохранён! {Emoji.Success}";
         public string GetBotToken => $"Пришлите мне токен {Emoji.Key} вашего бота и мы сделаем из него персонального помощника!";
     }
 }

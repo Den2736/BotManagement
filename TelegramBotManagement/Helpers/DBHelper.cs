@@ -150,5 +150,12 @@ namespace TelegramBotManagement.Helpers
                 return db.Table<Client>().Any(c => c.Id == user.Id);
             }
         }
+        public static bool IsClient(int userId)
+        {
+            using (var db = GetConnection())
+            {
+                return db.Table<Client>().Any(c => c.Id == userId);
+            }
+        }
     }
 }

@@ -44,7 +44,6 @@ D:\GitHubRepos\BotManagement\TelegramBotManagement\obj\Debug\TelegramBotManageme
 D:\GitHubRepos\BotManagement\TelegramBotManagement\obj\Debug\TelegramBotManagement.csproj.CoreCompileInputs.cache
 D:\GitHubRepos\BotManagement\TelegramBotManagement\obj\Debug\TelegramBotManagement.exe
 D:\GitHubRepos\BotManagement\TelegramBotManagement\obj\Debug\TelegramBotManagement.pdb
-D:\GitHubRepos\BotManagement\TelegramBotManagement\obj\Debug\TelegramBotManagement.Views.RegisterBotForm.resources
 C:\Users\babenko.dy\Documents\GitHub\BotManagement\TelegramBotManagement\bin\Debug\x86\e_sqlite3.dll
 C:\Users\babenko.dy\Documents\GitHub\BotManagement\TelegramBotManagement\bin\Debug\x64\e_sqlite3.dll
 C:\Users\babenko.dy\Documents\GitHub\BotManagement\TelegramBotManagement\bin\Debug\TelegramBotManagement.exe.config
@@ -73,3 +72,7 @@ C:\Users\babenko.dy\Documents\GitHub\BotManagement\TelegramBotManagement\obj\Deb
 C:\Users\babenko.dy\Documents\GitHub\BotManagement\TelegramBotManagement\obj\Debug\TelegramBotManagement.csprojResolveAssemblyReference.cache
 C:\Users\babenko.dy\Documents\GitHub\BotManagement\TelegramBotManagement\bin\Debug\StackExchange.Redis.dll
 C:\Users\babenko.dy\Documents\GitHub\BotManagement\TelegramBotManagement\bin\Debug\StackExchange.Redis.xml
+D:\GitHubRepos\BotManagement\TelegramBotManagement\obj\Debug\TelegramBotManagement.Views.ClientsForm.resources
+D:\GitHubRepos\BotManagement\TelegramBotManagement\obj\Debug\TelegramBotManagement.Views.Clients.EditClientForm.resources
+D:\GitHubRepos\BotManagement\TelegramBotManagement\bin\Debug\StackExchange.Redis.dll
+D:\GitHubRepos\BotManagement\TelegramBotManagement\bin\Debug\StackExchange.Redis.xml
