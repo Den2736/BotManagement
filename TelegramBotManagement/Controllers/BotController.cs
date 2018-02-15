@@ -23,6 +23,18 @@ namespace TelegramBotManagement.Controllers
             PrepareBots();
         }
 
+        public static void RegisterNewBot(string token, int ownerId, string schemeName)
+        {
+            var bot = new OurBot()
+            {
+                Token = token,
+                OwnerId = ownerId,
+                SchemeName = schemeName
+            };
+            SchemeBase.GetShemeFor(bot).StoreTexts();
+            LaunchBot(bot);
+        }
+
         private static void LaunchBots(object sender, EventArgs e)
         {
             Bots = new Dictionary<TelegramBotClient, OurBot>();
@@ -62,7 +74,6 @@ namespace TelegramBotManagement.Controllers
             ourBot.Status = BotStatus.Online;
             Bots.Add(ourBot.TBot, ourBot);
         }
-
         private static void StopBots(object sender, EventArgs e)
         {
             int total = Bots.Count();
@@ -78,11 +89,6 @@ namespace TelegramBotManagement.Controllers
             }
             MainController.ShowBots(Bots.Values);
             MainController.ReportProgress(0, "Деактивация ботов завершена");
-        }
-
-        private static void RegisterNewBot(string token, int ownerId, ISheme sheme)
-        {
-
         }
 
         private static void TBot_OnMessage(object sender, Telegram.Bot.Args.MessageEventArgs e)

@@ -16,7 +16,7 @@ namespace TelegramBotManagement.Models
         public string SchemeName { get; set; }
 
         [Ignore] public Client Owner { get; set; }
-        [Ignore] public ISheme Scheme { get; set; }
+        [Ignore] public IScheme Scheme { get; set; }
         [Ignore] public Telegram.Bot.TelegramBotClient TBot { get; set; }
         [Ignore] public BotStatus Status { get; set; }
     }

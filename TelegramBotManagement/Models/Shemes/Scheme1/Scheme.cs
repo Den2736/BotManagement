@@ -15,14 +15,18 @@ namespace TelegramBotManagement.Models.Shemes.Scheme1
         public Scheme(TelegramBotClient tBot)
         {
             TBot = tBot;
-            Texts = new Texts($"BotsContent/{TBot.GetMeAsync().Result.Username}/Texts.xml");
+            Texts = new Texts(TextsBase.GetFilePathFor(TBot));
             Keyboards = new Keyboards(Texts);
             BotUsername = TBot.GetMeAsync().Result.Username;
         }
 
         public Texts Texts { get; set; }
         public Keyboards Keyboards { get; set; }
-        private string BotUsername;
+
+        public override void StoreTexts()
+        {
+            Texts.Store();
+        }
 
         public override void Start(MessageEventArgs e)
         {
@@ -544,5 +548,7 @@ namespace TelegramBotManagement.Models.Shemes.Scheme1
             var cache = RedisConnectorHelper.Connection.GetDatabase();
             return cache.StringGet($"Bot{BotUsername}User{userId}TextChoice");
         }
+
+        
     }
 }

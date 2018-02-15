@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types;
+using TelegramBotManagement.Controllers;
 using TelegramBotManagement.Helpers;
 
 namespace TelegramBotManagement.Models.Shemes.Register
@@ -111,6 +112,19 @@ namespace TelegramBotManagement.Models.Shemes.Register
                         else
                         {
                             await TBot.SendTextMessageAsync(userId, $"{Emoji.Error} Это не адрес электронный почты.");
+                        }
+                        break;
+                    }
+                case State.GetBotToken:
+                    {
+                        if (TokenIsValid(e.Message.Text))
+                        {
+                            BotController.RegisterNewBot(e.Message.Text, userId, nameof(Scheme1));
+                        }
+                        else
+                        {
+                            await TBot.SendTextMessageAsync(userId, "Неверный токен");
+                            SetGetTokenState(e);
                         }
                         break;
                     }
@@ -238,6 +252,23 @@ namespace TelegramBotManagement.Models.Shemes.Register
             {
                 db.Insert(ClientsForRegistration[userId]);
             }
+        }
+        private bool TokenIsValid(string token)
+        {
+            try
+            {
+                var bot = new TelegramBotClient(token);
+                return true;
+            }
+            catch (ArgumentException)
+            {
+                return false;
+            }
+        }
+
+        public override void StoreTexts()
+        {
+            throw new NotImplementedException();
         }
     }
 }

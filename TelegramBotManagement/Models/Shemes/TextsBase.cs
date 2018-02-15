@@ -22,6 +22,8 @@ namespace TelegramBotManagement.Models.Shemes
         void Update(Block? block, string fieldDisplayName, string newText);
 
         void Load();
+        
+        void Store();
 
         string GetText(Block? block, string fieldDisplayName);
 
@@ -32,7 +34,7 @@ namespace TelegramBotManagement.Models.Shemes
         bool ValidBlockName(string blockName);
     }
 
-    public abstract class TextsBase: ITexts
+    public abstract class TextsBase : ITexts
     {
         public TextsBase()
         {
@@ -40,6 +42,10 @@ namespace TelegramBotManagement.Models.Shemes
         }
 
         protected abstract string FilePath { get; set; }
+        public static string GetFilePathFor(Telegram.Bot.TelegramBotClient tBot)
+        {
+            return $"BotsContent/{tBot.GetMeAsync().Result.Username}/Texts.xml";
+        }
 
         public string BackButton = $"{Emoji.Back} Назад";
         public string ToStartButton = $"{Emoji.Top} К началу";
@@ -79,6 +85,32 @@ namespace TelegramBotManagement.Models.Shemes
                     }
                 }
             }
+        }
+
+        public void Store()
+        {
+            var blocks = new List<XElement>();
+
+            foreach (var blockProp in this.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            {
+                if (Enum.GetNames(typeof(Block)).Contains(blockProp.Name))
+                {
+                    var blockObj = blockProp.GetValue(this);
+                    var props = new List<XElement>();
+                    foreach (var prop in this.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance))
+                    {
+                        props.Add(new XElement(prop.Name, prop.GetValue(blockObj)));
+                    }
+                    blocks.Add(new XElement(blockProp.Name, props));
+                }
+            }
+
+            XDocument textsFile = new XDocument(
+                new XComment("This is a comment"),
+                new XElement("Root", blocks)
+            );
+
+            textsFile.Save(FilePath);
         }
 
         public void Update(Block? block, string fieldDisplayName, string newText)
@@ -211,8 +243,6 @@ namespace TelegramBotManagement.Models.Shemes
         }
 
         public PersonalAccount PersonalAccount { get; set; }
-
-        /// TODO public void Store(){}
     }
 
     public class PersonalAccount

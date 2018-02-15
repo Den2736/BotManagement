@@ -38,27 +38,27 @@ namespace TelegramBotManagement.Helpers
                     db.CreateTable<Client>();
                     db.CreateTable<OurBot>();
 
-                    db.Insert(new Client()
-                    {
-                        Id = 433094062,
-                        Username = "Den2736",
-                        FirstName = "Denis",
-                        LastName = "Babenko"
-                    });
+                    //db.Insert(new Client()
+                    //{
+                    //    Id = 433094062,
+                    //    Username = "Den2736",
+                    //    FirstName = "Denis",
+                    //    LastName = "Babenko"
+                    //});
 
-                    db.Insert(new OurBot()
-                    {
-                        Token = "457947516:AAFHOqCs0yU0jtWVNIch-YbaUWsAUU3nk84",
-                        OwnerId = 433094062,
-                        SchemeName = "Scheme1"
-                    });
+                    //db.Insert(new OurBot()
+                    //{
+                    //    Token = "457947516:AAFHOqCs0yU0jtWVNIch-YbaUWsAUU3nk84",
+                    //    OwnerId = 433094062,
+                    //    SchemeName = "Scheme1"
+                    //});
 
-                    db.Insert(new OurBot()
-                    {
-                        Token = "534255060:AAEanDcBLrlT6OAKAjbhNmtXkMISA_jfNXg",
-                        OwnerId = 433094062,
-                        SchemeName = "Register"
-                    });
+                    //db.Insert(new OurBot()
+                    //{
+                    //    Token = "534255060:AAEanDcBLrlT6OAKAjbhNmtXkMISA_jfNXg",
+                    //    OwnerId = 433094062,
+                    //    SchemeName = "Register"
+                    //});
                 }
             }
             else

@@ -8,14 +8,15 @@ using Telegram.Bot;
 
 namespace TelegramBotManagement.Models.Shemes
 {
-    public interface ISheme
+    public interface IScheme
     {
         void Next(CallbackQueryEventArgs e);
         void Next(MessageEventArgs e);
         void Start(MessageEventArgs e);
+        void StoreTexts();
     }
 
-    public abstract class SchemeBase : ISheme
+    public abstract class SchemeBase : IScheme
     {
         public TelegramBotClient TBot { get; set; }
 
@@ -27,7 +28,7 @@ namespace TelegramBotManagement.Models.Shemes
 
         public abstract void Next(MessageEventArgs e);
 
-        public static ISheme GetShemeFor(OurBot ourBot)
+        public static IScheme GetShemeFor(OurBot ourBot)
         {
             switch (ourBot.SchemeName)
             {
@@ -37,5 +38,7 @@ namespace TelegramBotManagement.Models.Shemes
 
             return null;
         }
+
+        public abstract void StoreTexts();
     }
 }
