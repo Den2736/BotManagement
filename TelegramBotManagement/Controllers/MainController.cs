@@ -7,6 +7,7 @@ using TelegramBotManagement.Helpers;
 using Telegram.Bot;
 using TelegramBotManagement.Models;
 using TelegramBotManagement.Views;
+using TelegramBotManagement.Models.EventArgs;
 
 namespace TelegramBotManagement.Controllers
 {
@@ -17,6 +18,9 @@ namespace TelegramBotManagement.Controllers
         public static event EventHandler OnLaunchAllButtonClick;
         public static event EventHandler OnStopAllButtonClick;
         public static event EventHandler OnClientsButtonClick;
+        public static event EventHandler<BotLaunchedArgs> BotLaunched;
+        public static event EventHandler<BotStoppedArgs> BotStopped;
+        public static event EventHandler<BotCheckedArgs> BotChecked;
 
         public static void Init()
         {
@@ -25,11 +29,31 @@ namespace TelegramBotManagement.Controllers
             Form.OnClientsButtonClick += Form_OnClientsButtonClick;
             Form.OnStopAllButtonClick += Form_OnStopAllButtonClick;
             Form.Show();
+
             DBHelper.CheckDB();
+
+            BotController.BotLaunched += BotController_BotLaunched;
+            BotController.BotStopped += BotController_BotStopped;
+            BotController.BotChecked += BotController_BotChecked;
             BotController.Init();
+
             ClientController.Init();
+
             Form.Hide();
             Form.ShowDialog();
+        }
+
+        private static void BotController_BotChecked(object sender, BotCheckedArgs e)
+        {
+            BotChecked?.Invoke(sender, e);
+        }
+        private static void BotController_BotStopped(object sender, BotStoppedArgs e)
+        {
+            BotStopped?.Invoke(sender, e);
+        }
+        private static void BotController_BotLaunched(object sender, BotLaunchedArgs e)
+        {
+            BotLaunched?.Invoke(sender, e);
         }
 
         public static void SetNeutralStatus(string message)
@@ -45,17 +69,9 @@ namespace TelegramBotManagement.Controllers
             Form.SetDangerStatus(message);
         }
 
-        public static void ShowBots(IEnumerable<OurBot> bots)
-        {
-            Form.ShowBots(bots);
-        }
         public static void UpdateBotInfo (OurBot bot)
         {
-            Form.UpdateBotInfo(bot);
-        }
-        public static void ReportProgress(double progress, string status = "")
-        {
-            Form.ShowProgress(progress, status);
+            Form.AddOrUpdateBotInfo(bot);
         }
 
         private static void Form_OnStopAllButtonClick(object sender, EventArgs e)

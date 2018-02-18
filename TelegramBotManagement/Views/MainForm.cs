@@ -7,7 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TelegramBotManagement.Controllers;
 using TelegramBotManagement.Models;
+using TelegramBotManagement.Models.EventArgs;
 
 namespace TelegramBotManagement
 {
@@ -17,25 +19,48 @@ namespace TelegramBotManagement
         public event EventHandler OnStopAllButtonClick;
         public event EventHandler OnClientsButtonClick;
 
+        private delegate void ShowLaunchInfoDelegate(BotLaunchedArgs e);
+        private delegate void ShowCheckInfoDelegate(BotCheckedArgs e);
+        private delegate void ShowStopInfoDelegate(BotStoppedArgs e);
+
         public MainForm()
         {
             InitializeComponent();
+            MainController.BotLaunched += MainController_BotLaunched;
+            MainController.BotStopped += MainController_BotStopped;
+            MainController.BotChecked += MainController_BotChecked;
         }
 
-        public void ShowBots(IEnumerable<OurBot> bots)
+        private void MainController_BotChecked(object sender, BotCheckedArgs e)
         {
-            BotList.Items.Clear();
-            foreach (var bot in bots)
-            {
-                BotList.Items.Add(GetItemFor(bot));
-            }
+            Invoke(new ShowCheckInfoDelegate(ShowCheckInfo), new object[] { e });
         }
-        public void UpdateBotInfo(OurBot bot)
+        private void MainController_BotStopped(object sender, BotStoppedArgs e)
         {
-            var telegramBot = bot.TBot.GetMeAsync().Result;
-            var item = BotList.FindItemWithText(telegramBot.Username);
-            var newItem = GetItemFor(bot);
-            BotList.Items[item.Index] = newItem;
+            Invoke(new ShowStopInfoDelegate(ShowStopInfo), new object[] { e });
+        }
+        private void MainController_BotLaunched(object sender, BotLaunchedArgs e)
+        {
+            Invoke(new ShowLaunchInfoDelegate(ShowLaunchInfo), new object[] { e });
+        }
+
+        private void ShowLaunchInfo(BotLaunchedArgs e)
+        {
+            AddOrUpdateBotInfo(e.Bot);
+            string status = e.Persentage == null || e.Persentage == 100 ? "Бот(ы) запущен(ы)" : "Запуск ботов...";
+            ShowProgress(e.Persentage ?? 100, status);
+        }
+        private void ShowCheckInfo(BotLaunchedArgs e)
+        {
+            AddOrUpdateBotInfo(e.Bot);
+            string status = e.Persentage == null || e.Persentage == 100 ? "Бот(ы) проверен(ы)" : "Проверка ботов...";
+            ShowProgress(e.Persentage ?? 100, status);
+        }
+        private void ShowStopInfo(BotLaunchedArgs e)
+        {
+            AddOrUpdateBotInfo(e.Bot);
+            string status = e.Persentage == null || e.Persentage == 100 ? "Бот(ы) деактивирован(ы)" : "Деактивация ботов...";
+            ShowProgress(e.Persentage ?? 100, status);
         }
 
         public void SetNeutralStatus(string message)
@@ -55,23 +80,35 @@ namespace TelegramBotManagement
         }
         public void ShowProgress(double progress, string status = "")
         {
-            ProgressBar.Value = (int) progress;
-            ProgressBar.ToolTipText = status;
-            StatusLabel.Text = status;
+            ProgressBar.Value = (int)progress;
+            SetNeutralStatus(status);
         }
 
+        public void AddOrUpdateBotInfo(OurBot bot)
+        {
+            var telegramBot = bot.TBot.GetMeAsync().Result;
+            var item = BotList.FindItemWithText(telegramBot.Username);
+            if (item != null)
+            {
+                var newItem = GetItemFor(bot);
+                newItem.Text = item.Text;
+                BotList.Items[item.Index] = newItem;
+            }
+            else
+            {
+                BotList.Items.Add(GetItemFor(bot));
+            }
+        }
         private ListViewItem GetItemFor(OurBot bot)
         {
             var item = new ListViewItem((BotList.Items.Count + 1).ToString());
             var telegramBot = bot.TBot.GetMeAsync().Result;
             item.SubItems.Add(telegramBot.Username);
-            item.SubItems.Add(bot.Owner.Username);
+            item.SubItems.Add($"{bot.Owner.Username} ({bot.Owner.FirstName} {bot.Owner.LastName})");
             item.SubItems.Add(bot.Status.ToString());
-
             item.SubItems[3].ForeColor =
                 bot.Status == Models.BotStatus.NotFound ? Color.Red
                 : bot.Status == Models.BotStatus.Online ? Color.Red : Color.Black;
-
             return item;
         }
 

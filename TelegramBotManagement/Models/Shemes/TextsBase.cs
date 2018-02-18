@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -22,7 +23,7 @@ namespace TelegramBotManagement.Models.Shemes
         void Update(Block? block, string fieldDisplayName, string newText);
 
         void Load();
-        
+
         void Store();
 
         string GetText(Block? block, string fieldDisplayName);
@@ -31,7 +32,7 @@ namespace TelegramBotManagement.Models.Shemes
 
         string GetDisplayName(object obj);
 
-        bool ValidBlockName(string blockName);
+        bool ValidBlockName(string blockDisplayName);
     }
 
     public abstract class TextsBase : ITexts
@@ -44,7 +45,11 @@ namespace TelegramBotManagement.Models.Shemes
         protected abstract string FilePath { get; set; }
         public static string GetFilePathFor(Telegram.Bot.TelegramBotClient tBot)
         {
-            return $"BotsContent/{tBot.GetMeAsync().Result.Username}/Texts.xml";
+            return GetDirectoryPathFor(tBot) + "\\Texts.xml";
+        }
+        public static string GetDirectoryPathFor(Telegram.Bot.TelegramBotClient tBot)
+        {
+            return $"BotsContent\\{tBot.GetMeAsync().Result.Username}";
         }
 
         public string BackButton = $"{Emoji.Back} Назад";
@@ -97,7 +102,7 @@ namespace TelegramBotManagement.Models.Shemes
                 {
                     var blockObj = blockProp.GetValue(this);
                     var props = new List<XElement>();
-                    foreach (var prop in this.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance))
+                    foreach (var prop in blockObj.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance))
                     {
                         props.Add(new XElement(prop.Name, prop.GetValue(blockObj)));
                     }
@@ -106,10 +111,14 @@ namespace TelegramBotManagement.Models.Shemes
             }
 
             XDocument textsFile = new XDocument(
-                new XComment("This is a comment"),
                 new XElement("Root", blocks)
             );
 
+            var ourBotContentDir = new DirectoryInfo(FilePath.Remove(FilePath.LastIndexOf("\\")));
+            if (!ourBotContentDir.Exists)
+            {
+                ourBotContentDir.Create();
+            }
             textsFile.Save(FilePath);
         }
 
@@ -237,9 +246,9 @@ namespace TelegramBotManagement.Models.Shemes
             return ((DisplayNameAttribute)(obj.GetType().GetCustomAttribute(typeof(DisplayNameAttribute), false))).DisplayName;
         }
 
-        public bool ValidBlockName(string blockName)
+        public bool ValidBlockName(string blockDisplayName)
         {
-            return Enum.GetNames(typeof(Block)).Contains(blockName);
+            return GetFieldInfo(null, blockDisplayName) != null;
         }
 
         public PersonalAccount PersonalAccount { get; set; }

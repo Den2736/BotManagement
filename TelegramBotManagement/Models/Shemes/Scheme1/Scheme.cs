@@ -393,9 +393,9 @@ namespace TelegramBotManagement.Models.Shemes.Scheme1
         {
             var newMessage = $"Пользователи бота {BotUsername}:{Environment.NewLine}";
 
-            using (var db = DBHelper.GetConnection())
+            using (var db = DBHelper.GetConnection(BotUsername))
             {
-                var users = db.Table<BotUser>();
+                var users = db.Table<BotUser>().ToList();
                 foreach (var user in users)
                 {
                     newMessage += $"{Environment.NewLine}{user.ToString()}";
@@ -409,7 +409,7 @@ namespace TelegramBotManagement.Models.Shemes.Scheme1
         {
             var newMessage = $"Пользователи бота {BotUsername}, прошедшие блок Лидмагнит:{Environment.NewLine}";
 
-            using (var db = DBHelper.GetConnection())
+            using (var db = DBHelper.GetConnection(BotUsername))
             {
                 var users = db.Table<BotUser>().Where(u => u.LamagnaPassed);
                 foreach (var user in users)
@@ -425,7 +425,7 @@ namespace TelegramBotManagement.Models.Shemes.Scheme1
         {
             var newMessage = $"Пользователи бота {BotUsername}, прошедшие блок Трипвайер:{Environment.NewLine}";
 
-            using (var db = DBHelper.GetConnection())
+            using (var db = DBHelper.GetConnection(BotUsername))
             {
                 var users = db.Table<BotUser>().Where(u => u.TrippierPassed);
                 foreach (var user in users)
@@ -441,7 +441,7 @@ namespace TelegramBotManagement.Models.Shemes.Scheme1
         {
             var newMessage = $"Пользователи бота {BotUsername}, прошедшие блок Главный продукт:{Environment.NewLine}";
 
-            using (var db = DBHelper.GetConnection())
+            using (var db = DBHelper.GetConnection(BotUsername))
             {
                 var users = db.Table<BotUser>().Where(u => u.MainProductPassed);
                 foreach (var user in users)

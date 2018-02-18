@@ -47,6 +47,7 @@ namespace TelegramBotManagement.Models.Shemes.Register
                         new KeyboardButton(Texts.GetPhoneNumberButton){ RequestContact = true }
                     }
                 },
+            OneTimeKeyboard = true,
             ResizeKeyboard = true
         };
         public static ReplyKeyboardMarkup UnknownClientGreetingKeyboard => new ReplyKeyboardMarkup

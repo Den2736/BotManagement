@@ -83,6 +83,9 @@
     <Compile Include="Models\BotUser.cs" />
     <Compile Include="Models\Client.cs" />
     <Compile Include="Models\Emoji.cs" />
+    <Compile Include="Models\EventArgs\BotCheckedArgs.cs" />
+    <Compile Include="Models\EventArgs\BotLaunchedArgs.cs" />
+    <Compile Include="Models\EventArgs\BotStoppedArgs.cs" />
     <Compile Include="Models\EventArgs\ContextMenuItemClickArgs.cs" />
     <Compile Include="Models\EventArgs\SaveClientArgs.cs" />
     <Compile Include="Models\OurBot.cs" />

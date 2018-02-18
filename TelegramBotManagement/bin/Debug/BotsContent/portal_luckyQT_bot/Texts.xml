@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Root>
+  <Lamagna>
+    <Greeting>Приветствие</Greeting>
+    <Text1>Текст 1</Text1>
+    <Text2>Текст 2</Text2>
+    <Text3>Текст 3</Text3>
+    <Text4>Текст 4</Text4>
+    <Button1>Кнопка 1</Button1>
+    <Button2>Кнопка 2</Button2>
+    <Button3>Кнопка 3</Button3>
+  </Lamagna>
+  <Trippier>
+    <Text1>Текст 1</Text1>
+    <Text2>Текст 2</Text2>
+    <Text3>Текст 3</Text3>
+    <Button1>Кнопка 1</Button1>
+  </Trippier>
+  <MainProduct>
+    <Text1>Текст 1</Text1>
+    <Button1>Кнопка 1</Button1>
+    <Button2>Кнопка 2</Button2>
+  </MainProduct>
+  <Other>
+    <Positive>Положительный ответ</Positive>
+    <Negative>Отрицательный ответ</Negative>
+    <Contacts>Контакты</Contacts>
+  </Other>
+</Root>

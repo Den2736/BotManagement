@@ -69,7 +69,7 @@ namespace TelegramBotManagement.Models.Shemes.Register
                             var contact = e.Message.Contact;
                             if (contact.UserId == userId)
                             {
-                                SavePhoneNumber(contact);
+                                SavePhoneNumber(e);
                                 await TBot.SendTextMessageAsync(userId, Texts.PhoneNumberSaved);
 
                                 if (DBHelper.IsClient(e.Message.From))
@@ -117,9 +117,24 @@ namespace TelegramBotManagement.Models.Shemes.Register
                     }
                 case State.GetBotToken:
                     {
-                        if (TokenIsValid(e.Message.Text))
+                        string token = e.Message.Text;
+                        if (TokenIsValid(token))
                         {
-                            BotController.RegisterNewBot(e.Message.Text, userId, nameof(Scheme1));
+                            OurBot existedBot = null;
+                            using (var db = DBHelper.GetConnection())
+                            {
+                                existedBot = db.Table<OurBot>().FirstOrDefault(b => b.Token == token);
+                            }
+                            if (existedBot != null)
+                            {
+                                var tBotName = new TelegramBotClient(token).GetMeAsync().Result.Username;
+                                await TBot.SendTextMessageAsync(userId, $"Данный токен уже используется в Вашем персональном помощнике @{tBotName}");
+                            }
+                            else
+                            {
+                                BotController.RegisterNewBot(e.Message.Text, userId, nameof(Scheme1));
+                                await TBot.SendTextMessageAsync(userId, $"Поздравляем");
+                            }
                         }
                         else
                         {
@@ -196,9 +211,11 @@ namespace TelegramBotManagement.Models.Shemes.Register
             await TBot.SendTextMessageAsync(userId, text);
             SetState(userId, State.GetEmailAddress);
         }
-        private void SavePhoneNumber(Contact contact)
+        private void SavePhoneNumber(MessageEventArgs e)
         {
-            int userId = contact.UserId;
+            var user = e.Message.From;
+            int userId = user.Id;
+            var contact = e.Message.Contact;
 
             if (DBHelper.IsClient(userId))
             {
@@ -212,13 +229,20 @@ namespace TelegramBotManagement.Models.Shemes.Register
             }
             else
             {
+                /// TODO save user first and last name
                 // save to RAM
-                ClientsForRegistration.Add(userId,
-                    new Client()
-                    {
-                        Id = userId,
-                        PhoneNumber = contact.PhoneNumber
-                    });
+                if (!ClientsForRegistration.ContainsKey(userId))
+                {
+                    ClientsForRegistration.Add(userId,
+                        new Client()
+                        {
+                            Id = userId,
+                            PhoneNumber = contact.PhoneNumber,
+                            FirstName = user.FirstName,
+                            LastName = user.LastName,
+                            Username = user.Username
+                        });
+                }
             }
         }
         private void SaveEmailAddress(MessageEventArgs e)
@@ -245,6 +269,7 @@ namespace TelegramBotManagement.Models.Shemes.Register
             int userId = e.Message.From.Id;
             var text = Texts.GetBotToken;
             await TBot.SendTextMessageAsync(userId, text);
+            SetState(userId, State.GetBotToken);
         }
         private void SaveNewClient(int userId)
         {
