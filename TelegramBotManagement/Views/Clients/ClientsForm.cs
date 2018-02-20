@@ -14,7 +14,7 @@ namespace TelegramBotManagement.Views
 {
     public partial class ClientsForm : Form
     {
-        public event EventHandler<ContextMenuItemClickArgs> OnEditClientButtonClick;
+        public event EventHandler<EditClientArgs> OnEditClientButtonClick;
 
         public ClientsForm()
         {
@@ -63,7 +63,7 @@ namespace TelegramBotManagement.Views
             {
                 case "Изменить":
                     {
-                        var args = new ContextMenuItemClickArgs()
+                        var args = new EditClientArgs()
                         {
                             SelectedItem = ClientList.SelectedItems[0]
                         };

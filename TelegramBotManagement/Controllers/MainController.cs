@@ -18,6 +18,8 @@ namespace TelegramBotManagement.Controllers
         public static event EventHandler OnLaunchAllButtonClick;
         public static event EventHandler OnStopAllButtonClick;
         public static event EventHandler OnClientsButtonClick;
+        public static event EventHandler<LaunchSeveralBotsArgs> OnLaunchContextMenuItemClick;
+        public static event EventHandler<StopSeveralBotsArgs> OnStopContextMenuItemClick;
         public static event EventHandler<BotLaunchedArgs> BotLaunched;
         public static event EventHandler<BotStoppedArgs> BotStopped;
         public static event EventHandler<BotCheckedArgs> BotChecked;
@@ -25,35 +27,24 @@ namespace TelegramBotManagement.Controllers
         public static void Init()
         {
             Form = new MainForm();
-            Form.OnLaunchAllButtonClick += Form_OnLaunchButtonClick;
-            Form.OnClientsButtonClick += Form_OnClientsButtonClick;
-            Form.OnStopAllButtonClick += Form_OnStopAllButtonClick;
+            Form.OnLaunchAllButtonClick += delegate(object sender, EventArgs e) { OnLaunchAllButtonClick?.Invoke(sender, null); };
+            Form.OnClientsButtonClick += delegate(object sender, EventArgs e) { OnClientsButtonClick?.Invoke(sender, null); };
+            Form.OnStopAllButtonClick += delegate(object sender, EventArgs e) { OnStopAllButtonClick?.Invoke(sender, null); };
+            Form.OnLaunchContextMenuItemClick += delegate (object sender, LaunchSeveralBotsArgs e) { OnLaunchContextMenuItemClick?.Invoke(sender, e); };
+            Form.OnStopContextMenuItemClick += delegate (object sender, StopSeveralBotsArgs e) { OnStopContextMenuItemClick?.Invoke(sender, e); };
             Form.Show();
 
             DBHelper.CheckDB();
 
-            BotController.BotLaunched += BotController_BotLaunched;
-            BotController.BotStopped += BotController_BotStopped;
-            BotController.BotChecked += BotController_BotChecked;
+            BotController.BotLaunched += delegate(object sender, BotLaunchedArgs e) { BotLaunched?.Invoke(sender, e); };
+            BotController.BotStopped += delegate(object sender, BotStoppedArgs e) { BotStopped?.Invoke(sender, e); };
+            BotController.BotChecked += delegate(object sender, BotCheckedArgs e) { BotChecked?.Invoke(sender, e); };
             BotController.Init();
 
             ClientController.Init();
 
             Form.Hide();
             Form.ShowDialog();
-        }
-
-        private static void BotController_BotChecked(object sender, BotCheckedArgs e)
-        {
-            BotChecked?.Invoke(sender, e);
-        }
-        private static void BotController_BotStopped(object sender, BotStoppedArgs e)
-        {
-            BotStopped?.Invoke(sender, e);
-        }
-        private static void BotController_BotLaunched(object sender, BotLaunchedArgs e)
-        {
-            BotLaunched?.Invoke(sender, e);
         }
 
         public static void SetNeutralStatus(string message)
@@ -69,22 +60,9 @@ namespace TelegramBotManagement.Controllers
             Form.SetDangerStatus(message);
         }
 
-        public static void UpdateBotInfo (OurBot bot)
+        public static void UpdateBotInfo(OurBot bot)
         {
             Form.AddOrUpdateBotInfo(bot);
-        }
-
-        private static void Form_OnStopAllButtonClick(object sender, EventArgs e)
-        {
-            OnStopAllButtonClick?.Invoke(sender, null);
-        }
-        private static void Form_OnLaunchButtonClick(object sender, EventArgs e)
-        {
-            OnLaunchAllButtonClick?.Invoke(sender, null);
-        }
-        private static void Form_OnClientsButtonClick(object sender, EventArgs e)
-        {
-            OnClientsButtonClick?.Invoke(sender, null);
         }
     }
 }

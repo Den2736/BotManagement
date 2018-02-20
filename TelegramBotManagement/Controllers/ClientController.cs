@@ -30,7 +30,7 @@ namespace TelegramBotManagement.Controllers
             Form.ShowDialog();
         }
 
-        private static void ClientsForm_OnEditClientButtonClick(object sender, ContextMenuItemClickArgs e)
+        private static void ClientsForm_OnEditClientButtonClick(object sender, EditClientArgs e)
         {
             EditForm = new EditClientForm();
             EditForm.SaveButtonClick += UpdateClient;

@@ -18,6 +18,8 @@ namespace TelegramBotManagement
         public event EventHandler OnLaunchAllButtonClick;
         public event EventHandler OnStopAllButtonClick;
         public event EventHandler OnClientsButtonClick;
+        public event EventHandler<LaunchSeveralBotsArgs> OnLaunchContextMenuItemClick;
+        public event EventHandler<StopSeveralBotsArgs> OnStopContextMenuItemClick;
 
         private delegate void ShowLaunchInfoDelegate(BotLaunchedArgs e);
         private delegate void ShowCheckInfoDelegate(BotCheckedArgs e);
@@ -26,22 +28,9 @@ namespace TelegramBotManagement
         public MainForm()
         {
             InitializeComponent();
-            MainController.BotLaunched += MainController_BotLaunched;
-            MainController.BotStopped += MainController_BotStopped;
-            MainController.BotChecked += MainController_BotChecked;
-        }
-
-        private void MainController_BotChecked(object sender, BotCheckedArgs e)
-        {
-            Invoke(new ShowCheckInfoDelegate(ShowCheckInfo), new object[] { e });
-        }
-        private void MainController_BotStopped(object sender, BotStoppedArgs e)
-        {
-            Invoke(new ShowStopInfoDelegate(ShowStopInfo), new object[] { e });
-        }
-        private void MainController_BotLaunched(object sender, BotLaunchedArgs e)
-        {
-            Invoke(new ShowLaunchInfoDelegate(ShowLaunchInfo), new object[] { e });
+            MainController.BotLaunched += delegate(object sender, BotLaunchedArgs e) { Invoke(new ShowLaunchInfoDelegate(ShowLaunchInfo), new object[] { e }); };
+            MainController.BotStopped += delegate(object sender, BotStoppedArgs e) { Invoke(new ShowStopInfoDelegate(ShowStopInfo), new object[] { e }); };
+            MainController.BotChecked += delegate(object sender, BotCheckedArgs e) { Invoke(new ShowCheckInfoDelegate(ShowCheckInfo), new object[] { e }); };
         }
 
         private void ShowLaunchInfo(BotLaunchedArgs e)
@@ -86,12 +75,11 @@ namespace TelegramBotManagement
 
         public void AddOrUpdateBotInfo(OurBot bot)
         {
-            var telegramBot = bot.TBot.GetMeAsync().Result;
-            var item = BotList.FindItemWithText(telegramBot.Username);
+            var item = BotList.FindItemWithText(bot.Token);
             if (item != null)
             {
                 var newItem = GetItemFor(bot);
-                newItem.Text = item.Text;
+                newItem.SubItems[1].Text = item.SubItems[1].Text;
                 BotList.Items[item.Index] = newItem;
             }
             else
@@ -101,8 +89,9 @@ namespace TelegramBotManagement
         }
         private ListViewItem GetItemFor(OurBot bot)
         {
-            var item = new ListViewItem((BotList.Items.Count + 1).ToString());
+            var item = new ListViewItem(bot.Token);
             var telegramBot = bot.TBot.GetMeAsync().Result;
+            item.SubItems.Add((BotList.Items.Count + 1).ToString());
             item.SubItems.Add(telegramBot.Username);
             item.SubItems.Add($"{bot.Owner.Username} ({bot.Owner.FirstName} {bot.Owner.LastName})");
             item.SubItems.Add(bot.Status.ToString());
@@ -123,6 +112,43 @@ namespace TelegramBotManagement
         private void StopAllButton_Click(object sender, EventArgs e)
         {
             OnStopAllButtonClick?.Invoke(sender, null);
+        }
+        private void BotList_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                if (BotList.FocusedItem.Bounds.Contains(e.Location) == true)
+                {
+                    ContextMenu.Show(Cursor.Position);
+                }
+            }
+        }
+        private void ContextMenu_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            var selectedItems = BotList.SelectedItems;
+            var selectedBotsTokens = new List<string>();
+            foreach (var selectedBot in selectedItems)
+            {
+                int idx = BotList.Items.IndexOf(selectedBot as ListViewItem);
+                var token = BotList.Items[idx].Text;
+                selectedBotsTokens.Add(token);
+            }
+
+            switch (e.ClickedItem.Text)
+            {
+                case "Запустить":
+                    {
+                        var args = new LaunchSeveralBotsArgs() { BotsTokens = selectedBotsTokens };
+                        OnLaunchContextMenuItemClick?.Invoke(sender, args);
+                        break;
+                    }
+                case "Остановить":
+                    {
+                        var args = new StopSeveralBotsArgs() { BotsTokens = selectedBotsTokens };
+                        OnStopContextMenuItemClick?.Invoke(sender, args);
+                        break;
+                    }
+            }
         }
     }
 }

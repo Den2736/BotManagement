@@ -15,15 +15,17 @@ namespace TelegramBotManagement.Controllers
 {
     public static class BotController
     {
-        private static Dictionary<TelegramBotClient, OurBot> Bots { get; set; }
+        private static Dictionary<TelegramBotClient, OurBot> Bots { get; set; } = new Dictionary<TelegramBotClient, OurBot>();
         public static event EventHandler<BotLaunchedArgs> BotLaunched;
         public static event EventHandler<BotStoppedArgs> BotStopped;
         public static event EventHandler<BotCheckedArgs> BotChecked;
 
         public static void Init()
         {
-            MainController.OnLaunchAllButtonClick += LaunchBots;
-            MainController.OnStopAllButtonClick += StopBots;
+            MainController.OnLaunchAllButtonClick += OnLaunchAll; ;
+            MainController.OnStopAllButtonClick += StopAllButton; ;
+            MainController.OnLaunchContextMenuItemClick += LaunchSeveralBots;
+            MainController.OnStopContextMenuItemClick += StopSeveralBots; ;
             CheckBots();
         }
 
@@ -67,11 +69,8 @@ namespace TelegramBotManagement.Controllers
                 BotChecked?.Invoke(null, new BotCheckedArgs(ourBot, (double)count / total * 100));
             }
         }
-        private static void LaunchBots(object sender, EventArgs e)
+        private static void LaunchBots(IEnumerable<OurBot> ourBots)
         {
-            Bots = new Dictionary<TelegramBotClient, OurBot>();
-            var ourBots = GetBots();
-
             int total = ourBots.Count();
             int count = 0;
 
@@ -110,7 +109,7 @@ namespace TelegramBotManagement.Controllers
                 Bots[ourBot.TBot] = ourBot;
             }
         }
-        private static void StopBots(object sender, EventArgs e)
+        private static void StopBots(IEnumerable<string> tokens=null)
         {
             int total = Bots.Count();
             int count = 0;
@@ -123,6 +122,23 @@ namespace TelegramBotManagement.Controllers
                 count++;
                 BotStopped?.Invoke(null, new BotStoppedArgs(Bots[tBot], (double)count / total * 100));
             }
+        }
+
+        private static void OnLaunchAll(object sender, EventArgs e)
+        {
+            LaunchBots(GetBots());
+        }
+        private static void StopAllButton(object sender, EventArgs e)
+        {
+            StopBots();
+        }
+        private static void LaunchSeveralBots(object sender, LaunchSeveralBotsArgs e)
+        {
+            LaunchBots(GetBots(e.BotsTokens));
+        }
+        private static void StopSeveralBots(object sender, StopSeveralBotsArgs e)
+        {
+            StopBots(e.BotsTokens);
         }
 
         private static void TBot_OnMessage(object sender, Telegram.Bot.Args.MessageEventArgs e)
@@ -147,12 +163,12 @@ namespace TelegramBotManagement.Controllers
             ourBot.Scheme.Next(e);
         }
 
-        private static IEnumerable<OurBot> GetBots()
+        private static IEnumerable<OurBot> GetBots(IEnumerable<string> tokens = null)
         {
             var bots = new List<OurBot>();
             using (var db = DBHelper.GetConnection())
             {
-                bots = db.Table<OurBot>().ToList();
+                bots = tokens != null? db.Table<OurBot>().Where(b => tokens.Contains(b.Token)).ToList() : db.Table<OurBot>().ToList();
                 foreach (var bot in bots)
                 {
                     bot.Owner = db.Find<Client>(bot.OwnerId);

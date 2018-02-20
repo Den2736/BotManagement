@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.BotList = new System.Windows.Forms.ListView();
             this.BotNumber = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -42,8 +43,13 @@
             this.StopAllButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.btnClients = new System.Windows.Forms.ToolStripButton();
+            this.ContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.LaunchBotContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.StopBotContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.BotToken = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.StatusStrip.SuspendLayout();
             this.toolStrip1.SuspendLayout();
+            this.ContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // BotList
@@ -52,6 +58,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.BotList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.BotToken,
             this.BotNumber,
             this.BotName,
             this.BotOwner,
@@ -65,6 +72,7 @@
             this.BotList.TabIndex = 1;
             this.BotList.UseCompatibleStateImageBehavior = false;
             this.BotList.View = System.Windows.Forms.View.Details;
+            this.BotList.MouseClick += new System.Windows.Forms.MouseEventHandler(this.BotList_MouseClick);
             // 
             // BotNumber
             // 
@@ -157,6 +165,32 @@
             this.btnClients.Text = "Клиенты";
             this.btnClients.Click += new System.EventHandler(this.btnClients_Click);
             // 
+            // ContextMenu
+            // 
+            this.ContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.LaunchBotContextMenuItem,
+            this.StopBotContextMenuItem});
+            this.ContextMenu.Name = "ContextMenu";
+            this.ContextMenu.Size = new System.Drawing.Size(139, 48);
+            this.ContextMenu.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.ContextMenu_ItemClicked);
+            // 
+            // LaunchBotContextMenuItem
+            // 
+            this.LaunchBotContextMenuItem.Name = "LaunchBotContextMenuItem";
+            this.LaunchBotContextMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.LaunchBotContextMenuItem.Text = "Запустить";
+            // 
+            // StopBotContextMenuItem
+            // 
+            this.StopBotContextMenuItem.Name = "StopBotContextMenuItem";
+            this.StopBotContextMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.StopBotContextMenuItem.Text = "Остановить";
+            // 
+            // BotToken
+            // 
+            this.BotToken.Text = "";
+            this.BotToken.Width = 0;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -174,6 +208,7 @@
             this.StatusStrip.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.ContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -193,6 +228,10 @@
         private System.Windows.Forms.ToolStripButton btnClients;
         private System.Windows.Forms.ToolStripButton LaunchAllButton;
         private System.Windows.Forms.ToolStripButton StopAllButton;
+        private System.Windows.Forms.ContextMenuStrip ContextMenu;
+        private System.Windows.Forms.ToolStripMenuItem LaunchBotContextMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem StopBotContextMenuItem;
+        private System.Windows.Forms.ColumnHeader BotToken;
     }
 }
 

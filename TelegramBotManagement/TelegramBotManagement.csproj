@@ -86,7 +86,9 @@
     <Compile Include="Models\EventArgs\BotCheckedArgs.cs" />
     <Compile Include="Models\EventArgs\BotLaunchedArgs.cs" />
     <Compile Include="Models\EventArgs\BotStoppedArgs.cs" />
-    <Compile Include="Models\EventArgs\ContextMenuItemClickArgs.cs" />
+    <Compile Include="Models\EventArgs\EditClientArgs.cs" />
+    <Compile Include="Models\EventArgs\StopSeveralBotsArgs.cs" />
+    <Compile Include="Models\EventArgs\LaunchSeveralBotsArgs.cs" />
     <Compile Include="Models\EventArgs\SaveClientArgs.cs" />
     <Compile Include="Models\OurBot.cs" />
     <Compile Include="Models\Shemes\Register\Keyboards.cs" />
